@@ -8,4 +8,6 @@ return [
     'maximum_spend' => 'You need to spend less than :amount to apply this reward points.',
     'inapplicable' => 'This reward points is not applicable to your cart.',
     'usage_limit_reached' => 'The reward points usage limit has been reached.',
+    'settings_have_been_saved' => "Reward points setting has been saved",
+    'settings_update_failed' => "Reward points settings Update Failed",
 ];

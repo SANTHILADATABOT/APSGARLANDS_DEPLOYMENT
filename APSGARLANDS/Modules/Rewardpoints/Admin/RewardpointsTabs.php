@@ -5,7 +5,7 @@ namespace Modules\Rewardpoints\Admin;
 use Modules\Admin\Ui\Tab;
 use Modules\Admin\Ui\Tabs;
 use Modules\Rewardpoints\Entities\Rewardpoints;
-use Modules\Category\Entities\Category;
+
 
 class RewardpointsTabs extends Tabs
 {
@@ -17,7 +17,7 @@ class RewardpointsTabs extends Tabs
             ->add($this->settings())
             ->add($this->setpoints())
             // ->add($this->customerpoints())
-            // ->add($this->notifications())
+            ->add($this->notifications())
             ;
     }
 
@@ -48,35 +48,40 @@ class RewardpointsTabs extends Tabs
             $tab->weight(10);
             $tab->fields(['minimum_spend']);
 
-            $rewardpoints = Rewardpoints::withoutGlobalScope('active')->findOrNew(request('id'));
-
-            $tab->view('rewardpoints::admin.rewardpoints.tabs.setpoints', [
-                'products' => $rewardpoints->productList(),
-                'excludeProducts' => $rewardpoints->excludeProductList(),
-                'categories' => Category::treeList(),
-            ]);
+            // $rewardpoints = Rewardpoints::withoutGlobalScope('active')->first();
+            $rewardpoints = Rewardpoints::first();
+            if($rewardpoints == null){
+                $rewardpoints = new Rewardpoints();
+            }
+            $tab->view('rewardpoints::admin.rewardpoints.tabs.setpoints',compact('rewardpoints'));
         });
     }
 
-        private function customerpoints()
-        {
+        // private function customerpoints()
+        // {
            
-            return tap(new Tab('customerpoints', trans('rewardpoints::rewardpoints.tabs.customerpoints')), function (Tab $tab) {
-                $obj = new Rewardpoints();
-                $customer_list = $obj->customers();
-                $tab->weight(15);
-                $tab->fields(['usage_limit_per_rewardpoints', 'usage_limit_per_customer']);
-                // $tab->view('rewardpoints::admin.rewardpoints.tabs.customerpoints',['rewardpoints'=>  $customer_list]);
-                $tab->view('rewardpoints::admin.rewardpoints.tabs.customerpoints');
-            });
-        }
+        //     return tap(new Tab('customerpoints', trans('rewardpoints::rewardpoints.tabs.customerpoints')), function (Tab $tab) {
+        //         $obj = new Rewardpoints();
+        //         $customer_list = $obj->customers();
+        //         $tab->weight(15);
+        //         $tab->fields(['usage_limit_per_rewardpoints', 'usage_limit_per_customer']);
+        //         // $tab->view('rewardpoints::admin.rewardpoints.tabs.customerpoints',['rewardpoints'=>  $customer_list]);
+        //         $tab->view('rewardpoints::admin.rewardpoints.tabs.customerpoints');
+        //     });
+        // }
 
     private function notifications()
     {
+       
         return tap(new Tab('notifications', trans('rewardpoints::rewardpoints.tabs.notifications')), function (Tab $tab) {
+            $rewardpoints = Rewardpoints::first();
+            if($rewardpoints == null){
+                $rewardpoints = new Rewardpoints();
+            }
+
             $tab->weight(15);
             $tab->fields(['usage_limit_per_rewardpoints', 'usage_limit_per_customer']);
-            $tab->view('rewardpoints::admin.rewardpoints.tabs.notifications');
+            $tab->view('rewardpoints::admin.rewardpoints.tabs.notifications',compact('rewardpoints'));
         });
     }
 }

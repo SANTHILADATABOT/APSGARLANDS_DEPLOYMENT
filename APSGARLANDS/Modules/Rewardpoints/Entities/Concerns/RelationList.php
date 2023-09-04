@@ -30,12 +30,12 @@ trait RelationList
      * @param string $attributes
      * @return array
      */
-    private function getItemList($attribute)
-    {
-        $items = $this->getAttribute($attribute);
+    // private function getItemList($attribute)
+    // {
+    //     $items = $this->getAttribute($attribute);
 
-        return $items->mapWithKeys(function ($item) {
-            return [$item->id => $item->name];
-        })->all();
-    }
+    //     return $items->mapWithKeys(function ($item) {
+    //         return [$item->id => $item->name];
+    //     })->all();
+    // }
 }

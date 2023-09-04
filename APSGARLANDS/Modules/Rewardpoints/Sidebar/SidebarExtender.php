@@ -13,12 +13,20 @@ class SidebarExtender extends BaseSidebarExtender
     {
         $menu->group(trans('admin::sidebar.content'), function (Group $group) {
             $group->item(trans('rewardpoints::rewardpoints.rewardpoints'), function (Item $item) {
-                $item->icon('fa fa-tags');
+                $item->icon('fa fa-gift');
                 $item->weight(20);
-                $item->route('admin.rewardpoints.index');
+                $item->route('admin.rewardpoints.edit');
                 $item->authorize(
-                    $this->auth->hasAccess('admin.rewardpoints.index')
+                    $this->auth->hasAccess('admin.rewardpoints.edit')
                 );
+
+                $item->item(trans('rewardpoints::rewardpoints.rewardpoints'), function (Item $item) {
+                    $item->weight(5);
+                    $item->route('admin.rewardpoints.edit');
+                    $item->authorize(
+                        $this->auth->hasAccess('admin.rewardpoints.edit')
+                    );
+                });
             });
         });
     }

@@ -17,10 +17,10 @@ use Modules\User\Entities\Role;
 
 class Rewardpoints extends Model
 {
-    use Translatable,
-        SoftDeletes,
-        Concerns\SyncRelations,
-        Concerns\RelationList;
+    // use Translatable,
+    use SoftDeletes;
+        // Concerns\SyncRelations,
+        // Concerns\RelationList;
 
     /**
      * The relations to eager load on every query.
@@ -44,7 +44,7 @@ class Rewardpoints extends Model
         'redemption_point_value',
         'redemption_currency_value',
         'epoint_first_signup_value',
-        'epoint_ref_point_value',
+        // 'epoint_ref_point_value',
         'epoint_forder_point_value',
         'epoint_freview_point_value',
         'epoint_fpay_point_value',
@@ -55,7 +55,10 @@ class Rewardpoints extends Model
         'bday_noti_mail_message',
         // 'reward_point_value',
         // 'reward_point_remarks',
-        'user_id'];
+        // 'user_id'
+    ];
+
+        protected $guarded = [];
     /**
      * The attributes that should be cast to native types.
      *
@@ -63,14 +66,15 @@ class Rewardpoints extends Model
      */
     protected $casts = [
         'enable_bday_points'  =>   'boolean',
-        'enable_referral_points'    =>  'boolean',
+        // 'enable_referral_points'    =>  'boolean',
         'enable_show_customer_points'    =>  'boolean',
         'enable_show_points_with_order'    =>  'boolean',
         'enable_show_points_by_mail'    =>  'boolean',
         'enable_give_old_order_points'    =>  'boolean',
         'enable_apply_points_in_checkout_page'    =>  'boolean',
         'enable_remove_points_order_refund'    =>  'boolean',
-        'is_active' => 'boolean',];
+        // 'is_active' => 'boolean',
+        ];
 
     /**
      * The attributes that should be mutated to dates.
@@ -84,7 +88,7 @@ class Rewardpoints extends Model
      *
      * @var array
      */
-    protected $translatedAttributes = ['name'];
+    // protected $translatedAttributes = ['name'];
 
     protected $customer_list =[];
     /**
@@ -92,14 +96,14 @@ class Rewardpoints extends Model
      *
      * @return void
      */
-    protected static function booted()
-    {
-        static::saved(function ($rewardpoints) {
-            $rewardpoints->saveRelations(request()->all());
-        });
+    // protected static function booted()
+    // {
+    //     static::saved(function ($rewardpoints) {
+    //         $rewardpoints->saveRelations(request()->all());
+    //     });
 
-        static::addActiveGlobalScope();
-    }
+    //     static::addActiveGlobalScope();
+    // }
 
     public static function findByCode($code)
     {
@@ -412,11 +416,10 @@ class Rewardpoints extends Model
     {
         
        $users= new User();
-       dd($users->role());
         $customer = Rewardpoints::whereHas('user.role', function ($query) {
             $query->where('role_id', '!=', 1);
         })->get();
-        dd($customer);
+        
         // $users = User::whereHas('roles', function ($query) {
         //     $query->where('name', 'admin');
         // })->get();
@@ -431,12 +434,15 @@ class Rewardpoints extends Model
         // dd($result);
     }
 
-    public function getRedemptionPointValueAttribute(){
-        return $this->redemption_point_value;        
-    }
-    public function getRedemptionCurrencyValueAttribute(){
-        return $this->redemption_currency_value;
-    }
+    // public function getRedemptionPointValueAttribute(){
+    //     return $this->redemption_point_value;        
+    // }
+    // public function getRedemptionCurrencyValueAttribute(){
+    //     return $this->redemption_currency_value;
+    // }
 
+    public function getRewardPointsSettings(){
+        return $this->where('id', 1)->first();
+    }
 
 }

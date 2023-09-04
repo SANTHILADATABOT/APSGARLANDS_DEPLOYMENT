@@ -4,12 +4,13 @@
     </div>
 </div>
 <HR/>
+
 <div class="row">
     <div class="col-md-4">
-        {{ Form::number('', trans('rewardpoints::attributes.currency_value'), $errors, $rewardpoints, ['min' => 0]) }}
+        {{ Form::number('currency_value', trans('rewardpoints::attributes.currency_value'), $errors, $rewardpoints, ['min' => 0]) }}
     </div>
     <div class="col-md-4">
-        {{ Form::number('', trans('rewardpoints::attributes.point_value'), $errors, $rewardpoints, ['min' => 0]) }}
+        {{ Form::number('point_value', trans('rewardpoints::attributes.point_value'), $errors, $rewardpoints, ['min' => 0]) }}
     </div>
 </div>
 <div class="row" style="heighht:15px !important;"></div>
@@ -21,10 +22,10 @@
 <HR/>
 <div class="row">
     <div class="col-md-4">
-        {{ Form::number('redemption_value', trans('rewardpoints::attributes.redemption_point_value'), $errors, $rewardpoints, ['min' => 0]) }}
+        {{ Form::number('redemption_point_value', trans('rewardpoints::attributes.redemption_point_value'), $errors, $rewardpoints, ['min' => 0]) }}
     </div>
     <div class="col-md-4">
-        {{ Form::number('redemption_value', trans('rewardpoints::attributes.redemption_currency_value'), $errors, $rewardpoints, ['min' => 0]) }}
+        {{ Form::number('redemption_currency_value', trans('rewardpoints::attributes.redemption_currency_value'), $errors, $rewardpoints, ['min' => 0]) }}
     </div>
 </div>
 <div class="row" style="heighht:15px !important;"></div>
@@ -38,9 +39,9 @@
     <div class="col-md-4">
         {{ Form::number('epoint_first_signup_value', trans('rewardpoints::attributes.epoint_first_signup_value'), $errors, $rewardpoints, ['min' => 0]) }}
     </div>
-    <div class="col-md-4">
+    {{-- <div class="col-md-4">
         {{ Form::number('epoint_ref_point_value', trans('rewardpoints::attributes.epoint_ref_point_value'), $errors, $rewardpoints, ['min' => 0]) }}
-    </div>
+    </div> --}}
     <div class="col-md-4">
         {{ Form::number('epoint_forder_point_value', trans('rewardpoints::attributes.epoint_forder_point_value'), $errors, $rewardpoints, ['min' => 0]) }}
     </div>

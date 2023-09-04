@@ -18,7 +18,7 @@ return [
         ],
         'settings' => 'Settings',
         'setpoints' => 'Set Points',
-        'customerpoints' => 'Customer Points',
+        // 'customerpoints' => 'Customer Points',
         'notifications' => 'Notifications',
     ],
     'form' => [
