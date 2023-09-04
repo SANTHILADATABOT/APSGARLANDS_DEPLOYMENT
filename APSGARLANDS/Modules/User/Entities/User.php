@@ -14,6 +14,7 @@ use Modules\Address\Entities\DefaultAddress;
 use Cartalyst\Sentinel\Laravel\Facades\Activation;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
+use Modules\RewardpointsGift\Entities\RewardpointsGift;
 
 class User extends EloquentUser implements AuthenticatableContract
 {
@@ -242,5 +243,17 @@ class User extends EloquentUser implements AuthenticatableContract
     public function table()
     {
         return new UserTable($this->newQuery());
+    }
+
+    public function rewardpointsgift()
+    {
+        return $this->hasOne(RewardpointsGift::class, 'user_id');
+    }
+
+    public function customerlist()
+    {
+        $customerUsers = User::where(function($query) {
+            $query->hasRoleName('customer');
+        })->get();
     }
 }

@@ -35,5 +35,7 @@
     "Tag": true,
     "Import": true,
     "Address": true,
-    "Sms": true
+    "Sms": true,
+    "RewardpointsGift": true,
+    "Rewardpoints": true
 }

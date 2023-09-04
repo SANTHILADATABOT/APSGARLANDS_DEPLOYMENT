@@ -25,9 +25,12 @@ trait HasCrudActions
         }
 
         if ($request->has('table')) {
+            // if($this->getResourceName() == 'rewardpointsGift')
+            // {
+            //     return $this->getModel()->tableDummy($request);
+            // }
             return $this->getModel()->table($request);
         }
-
         return view("{$this->viewPath}.index");
     }
 
@@ -218,7 +221,7 @@ trait HasCrudActions
     {
         return trans($this->label);
     }
-
+   
     /**
      * Get route prefix of the resource.
      *
