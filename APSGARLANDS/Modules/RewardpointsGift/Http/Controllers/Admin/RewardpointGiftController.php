@@ -101,9 +101,8 @@ class RewardpointGiftController extends Controller
     {
         
         $entity = $this->getEntity($id);
-
+dd($entity);
         $this->disableSearchSyncing();
-        dd($entity);
         $entity->update(
             $this->getRequest('update')->all()
         );

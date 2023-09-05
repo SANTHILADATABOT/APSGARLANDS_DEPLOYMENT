@@ -39,16 +39,26 @@ class RewardpointsGift extends Model
     //create a table in view
     public function table()
     {   
-        $query = User::select(['id','first_name','last_name','email','phone'])
-        ->with('roles')
-        ->whereHas('roles',function($qry){
-            $qry->where('role_translations.name', '=', 'Customer');
-        }) //For Admin role role_id is 1
-        ->with('rewardpointsgift')->newQuery();
-        // $query->whereHas('roles', function($q) {
-        //     $q->where('name', '=', 'customer');
-        //     });
-        // dd(($query));
+        // $query = User::select(['id','first_name','last_name','email','phone'])
+        // ->with('roles')
+        // ->whereHas('roles',function($qry){
+        //     $qry->where('role_translations.name', '=', 'Customer');
+        // }) //For Admin role role_id is 1
+        // ->with('rewardpointsgift')->newQuery();
+        // // $query->whereHas('roles', function($q) {
+        // //     $q->where('name', '=', 'customer');
+        // //     });
+        // // dd(($query));
+
+        //Have to fix the reward point and description is shown wrongly
+        $query = User::join('user_roles', 'users.id', '=', 'user_roles.user_id')
+        // ->with('rewardpointsgift')
+        ->join('roles', 'user_roles.role_id', '=', 'roles.id')
+        ->join('role_translations', 'roles.id', '=', 'role_translations.role_id')
+        // ->leftjoin('reward_points_gifted', 'users.id', '=', 'reward_points_gifted.user_id')
+        ->where('role_translations.name', 'Customer')
+        ->select(['users.id as id','users.first_name','users.last_name','users.email','users.phone'])->with('rewardpointsgift')
+        ->newQuery();
 
         // $query = User::select(['id','first_name','last_name','email','phone'])->hasRoleName('customer')->with('rewardpointsgift')->newQuery();
         return new RewardpointsGiftTable($query);
