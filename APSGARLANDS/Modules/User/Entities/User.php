@@ -188,10 +188,15 @@ class User extends EloquentUser implements AuthenticatableContract
      *
      * @return string
      */
+    // public function getFullNameAttribute()
+    // {
+    //     return "{$this->first_name} {$this->last_name}";
+    // }
     public function getFullNameAttribute()
     {
-        return "{$this->first_name} {$this->last_name}";
+        return ucfirst($this->customer_first_name)." ".ucfirst($this->customer_last_name);
     }
+   
 
     /**
      * Set user's permissions.
@@ -248,6 +253,11 @@ class User extends EloquentUser implements AuthenticatableContract
     public function rewardpointsgift()
     {
         return $this->hasOne(RewardpointsGift::class, 'user_id');
+    }
+    
+    public function customerRewardPoints()
+    {
+        return $this->hasMany(CustomerRewardPoint::class,'customer_id');
     }
 
     public function customerlist()

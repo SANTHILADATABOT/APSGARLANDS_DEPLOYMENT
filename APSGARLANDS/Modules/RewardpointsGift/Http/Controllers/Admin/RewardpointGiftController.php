@@ -7,7 +7,9 @@ use Modules\Admin\Traits\HasCrudActions;
 use Modules\RewardpointGift\Http\Requests\SaveTagRequest;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Modules\Rewardpoints\Entities\Rewardpoints;
 use Modules\User\Entities\User;
+use Modules\RewardpointsGift\Http\Controllers\CustomerRewardpointController;
 
 
 class RewardpointGiftController extends Controller
@@ -67,6 +69,7 @@ class RewardpointGiftController extends Controller
 
     public function show($id)
     {
+        $rewardpointsgifted = RewardpointsGift::select('id')->where('user_id',$id)->first();
         // $entity = User::with('rewardpointsgift')->find($id);
         // $entity = RewardpointsGift::with('user')->find($id);
         $entity = User::with('rewardpointsgift')->find($id);
@@ -79,34 +82,32 @@ class RewardpointGiftController extends Controller
     }
 
 
-//     public function edit($id)
-//     {
-
-//         // $data = array_merge([
-//         //     'tabs' => TabManager::get($this->getModel()->getTable()),
-//         //     $this->getResourceName() => $this->getEntity($id),
-//         // ], $this->getFormData('edit', $id));
-        
-//         $rewardpointsGift = RewardpointsGift::where('reward_points_gifted.id',$id)
-//         ->join('users as u', 'u.id','user_id')
-//         ->addSelect(['u.first_name','u.last_name','u.email'])
-//         ->selectRaw('CONCAT(UCASE(SUBSTRING(first_name, 1, 1)), LCASE(SUBSTRING(first_name, 2))," ",
-//         UCASE(SUBSTRING(last_name, 1, 1)), LCASE(SUBSTRING(last_name, 2))) AS customer_name')
-//         ->addSelect('reward_points_gifted.*')->get();
-// // dd($rewardpointsGift);
-//         return view("{$this->viewPath}.edit", compact('rewardpointsGift'));
-//     }
 
     public function update($id)
     {
+        $rewardpointsgifted = RewardpointsGift::select('id')->where('user_id',$id)->first();
         
-        $entity = $this->getEntity($id);
-dd($entity);
         $this->disableSearchSyncing();
-        $entity->update(
-            $this->getRequest('update')->all()
-        );
-
+        $entity = null;
+        if($rewardpointsgifted == null)
+        {
+            $entity = new RewardpointsGift();
+            
+            $entity->user_id = $id;
+            $entity->reward_point_remarks = $this->getRequest('update')->reward_point_remarks;
+            $entity->reward_point_value = $this->getRequest('update')->reward_point_value;
+            $entity->save();
+            $CustmerRewardPointsController = new CustomerRewardpointController();
+            $CustmerRewardPointsController->create($entity,'manual');
+        }
+        else{
+            $entity = $this->getEntity($rewardpointsgifted->id);
+            $entity->update(
+                $this->getRequest('update')->except(['_token','_method'])
+            );
+            $CustmerRewardPointsController = new CustomerRewardpointController();
+            $CustmerRewardPointsController->update($entity,'manual');
+        }
 
         $this->searchable($entity);
 

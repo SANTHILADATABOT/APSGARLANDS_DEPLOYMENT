@@ -14,17 +14,17 @@ return new class extends Migration
     // COMMENT = 'customer_reward_points is the table for capturing the reward points earned / processed by a customer';
     public function up()
     {
-    Schema::create('customer_reward_points', function (Blueprint $table) {
-        $table->increments('id');
-        $table->integer('user_id')->index();
-        $table->integer('rewardpoints_id')->index();
-        $table->integer('total_rewardpoints_allocated')->index();
-        $table->integer('total_used_points')->index();
-        $table->integer('total_unused_points')->index();
-        $table->tinyInteger('is_active');
-        $table->timestamp('deleted_at')->nullable();
-        $table->timestamp('created_at')->nullable();
-        $table->timestamp('updated_at')->nullable();
+    // Schema::create('customer_reward_points_old', function (Blueprint $table) {
+    //     $table->increments('id');
+    //     $table->integer('user_id')->index();
+    //     $table->integer('rewardpoints_id')->index();
+    //     $table->integer('total_rewardpoints_allocated')->index();
+    //     $table->integer('total_used_points')->index();
+    //     $table->integer('total_unused_points')->index();
+    //     $table->tinyInteger('is_active');
+    //     $table->timestamp('deleted_at')->nullable();
+    //     $table->timestamp('created_at')->nullable();
+    //     $table->timestamp('updated_at')->nullable();
     
         // CREATE TABLE `apsbouquet`.`customer_reward_points` (
         //     `id` INT(11) NOT NULL AUTO_INCREMENT,
@@ -41,7 +41,7 @@ return new class extends Migration
         //   COMMENT = 'customer_reward_points is the table for capturing the reward points earned / processed by a customer';
     
     
-    });
+    // });
 }
 
     /**
@@ -51,6 +51,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('customer_reward_points');
+        // Schema::dropIfExists('customer_reward_points_old');
     }
 };
