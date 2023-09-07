@@ -43,24 +43,27 @@ class CustomerRewardpointController
             $customerRewardPoints->customer_id = $request->user_id;
             $customerRewardPoints->reward_type = $reward_type;
             $customerRewardPoints->reward_points_earned = $request->reward_point_value;
-            $customerRewardPoints->expairy_date = $request->user_id;
-
+            $customerRewardPoints->expairy_date = $request->$getRewardExpiaryTimeSpan;
+            $customerRewardPoints->updated_at = Carbon::now();
+            $customerRewardPoints->created_at = Carbon::now();
+            $customerRewardPoints->save();
         }
     }
-    public function update($request = null , $reward_type = null)
+    public function update($request = null, $reward_type = null)
     {
-        $customerRewardPoints = new $this->model();
+        $customerRewardPoints = $this->model::where('customer_id',$request->user_id)->where("reward_type", $reward_type)->latest()->get();
+        dd($customerRewardPoints);
         $getRewardExpiaryTimeSpan = $this->getRewardExpiaryTimeSpan();
-        // dd($getRewardExpiaryTimeSpan);
+
         if( $reward_type =='manual'){
-            $customerRewardPoints->customer_id = $request->user_id;
+            // $customerRewardPoints->customer_id = $request->user_id;
             $customerRewardPoints->reward_type = $reward_type;
             $customerRewardPoints->reward_points_earned = $request->reward_point_value;
-            $customerRewardPoints->expairy_date = $request->user_id;
-
+            $customerRewardPoints->expairy_date = $request->$getRewardExpiaryTimeSpan;
+            $customerRewardPoints->updated_at = Carbon::now();
+            $customerRewardPoints->save();
         }
     }
-
 
     public function getRewardExpiaryTimeSpan()
     {
