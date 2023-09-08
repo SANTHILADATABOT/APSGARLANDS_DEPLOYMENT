@@ -5,7 +5,7 @@ namespace Modules\RewardpointsGift\Entities;
 use Modules\User\Entities\User;
 use Modules\Support\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-
+// use Modules\RewardpointsGift\Enums\RewardTypeEnum;
 
 class CustomerRewardPoint extends Model
 {
@@ -14,6 +14,10 @@ class CustomerRewardPoint extends Model
     protected $fillable = ['id','customer_id','reward_type','earned_reward_points','claimed_reward_points'];
     
     protected $dates = ['expairy_date','deleted_at','created_at','updated_at'];
+    
+    // protected $casts =[
+    //     'reward_type' => 'enum:birthday, firstsignup, firstorder, firstpayment, firstreview, manualoffer',
+    // ];
 
      /** 
         * Get the Log of Rewards Gained by  and Rewards Redeemed  by User

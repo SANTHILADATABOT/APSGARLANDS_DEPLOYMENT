@@ -36,6 +36,7 @@ class RewardpointsGift extends Model
 
     protected $fillable = ['id','user_id','reward_point_value','reward_point_remarks'];
     
+    
     //create a table in view
     public function table()
     {   

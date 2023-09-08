@@ -3,6 +3,7 @@
 return [
     'rewardpoint' => 'Reward Point',
     'rewardpoints' => 'Reward Points',
+    'rewardpoints_settings' => 'Reward Point Settings',
     'table' => [
          //CustomerPoints Related datatable attribs
         'customer_email'    =>  'Email ID',

@@ -97,18 +97,21 @@ class RewardpointGiftController extends Controller
             $entity->reward_point_remarks = $this->getRequest('update')->reward_point_remarks;
             $entity->reward_point_value = $this->getRequest('update')->reward_point_value;
             $entity->save();
-            $CustmerRewardPointsController = new CustomerRewardpointController();
-            $CustmerRewardPointsController->create($entity,'manual');
+            // $CustmerRewardPointsController = new CustomerRewardpointController();
+            // $CustmerRewardPointsController->create($entity,'manualoffer');
         }
         else{
             $entity = $this->getEntity($rewardpointsgifted->id);
             $entity->update(
                 $this->getRequest('update')->except(['_token','_method'])
             );
-            $CustmerRewardPointsController = new CustomerRewardpointController();
-            $CustmerRewardPointsController->update($entity,'manual');
+            // $CustmerRewardPointsController = new CustomerRewardpointController();
+            // $CustmerRewardPointsController->update($entity,'manual');
+            $entity->user_id = $id;
         }
-
+        
+        $CustmerRewardPointsController = new CustomerRewardpointController();
+        $CustmerRewardPointsController->create($entity,'manualoffer');
         $this->searchable($entity);
 
         if (method_exists($this, 'redirectTo')) {

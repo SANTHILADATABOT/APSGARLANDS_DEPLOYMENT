@@ -20,7 +20,7 @@ class SidebarExtender extends BaseSidebarExtender
                     $this->auth->hasAccess('admin.rewardpoints.edit')
                 );
 
-                $item->item(trans('rewardpoints::rewardpoints.rewardpoints'), function (Item $item) {
+                $item->item(trans('rewardpoints::rewardpoints.rewardpoints_settings'), function (Item $item) {
                     $item->weight(5);
                     $item->route('admin.rewardpoints.edit');
                     $item->authorize(
