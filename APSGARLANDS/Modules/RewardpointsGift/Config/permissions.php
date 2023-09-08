@@ -2,15 +2,15 @@
 
 return [
     'admin.rewardpointsgift' => [
-        'index' => 'rewardpointsgift::permissions.index',
-        'create' => 'rewardpointsgift::permissions.create',
-        'edit' => 'rewardpointsgift::permissions.edit',
-        'destroy' => 'rewardpointsgift::permissions.destroy',
+        'index' => 'rewardpointsgift::permissions.rewardpointsgift.index',
+        'create' => 'rewardpointsgift::permissions.rewardpointsgift.create',
+        'edit' => 'rewardpointsgift::permissions.rewardpointsgift.edit',
+        'destroy' => 'rewardpointsgift::permissions.rewardpointsgift.destroy',
     ],
     'admin.customerrewardpoints' => [
-        'index' => 'rewardpointsgift::customer_permissions.index',
-        'create' => 'rewardpointsgift::customer_permissions.create',
-        'edit' => 'rewardpointsgift::customer_permissions.edit',
-        'destroy' => 'rewardpointsgift::customer_permissions.destroy',
+        'index' => 'rewardpointsgift::permissions.customerrewardpoints.index',
+        'create' => 'rewardpointsgift::permissions.customerrewardpoints.create',
+        'edit' => 'rewardpointsgift::permissions.customerrewardpoints.edit',
+        'destroy' => 'rewardpointsgift::permissions.customerrewardpoints.destroy',
     ],
 ];

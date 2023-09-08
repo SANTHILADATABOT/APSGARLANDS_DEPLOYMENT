@@ -38,5 +38,41 @@ Route::delete('rewardpointsgift/{ids?}', [
     'middleware' => 'can:admin.rewardpointsgift.destroy',
 ]);
 
-// append
+// Customer Rewardpoints Controller
+//Route used to handle the rewardpoints by the admin
+Route::get('customerrewardpoints', [
+    'as' => 'admin.customerrewardpoints.index',
+    'uses' => 'CustomerRewardpointController@index',
+    'middleware' => 'can:admin.customerrewardpoints.index',
+]);
+
+Route::get('customerrewardpoints/create', [
+    'as' => 'admin.customerrewardpoints.create',
+    'uses' => 'CustomerRewardpointController@create',
+    'middleware' => 'can:admin.customerrewardpoints.create',
+]);
+
+Route::post('customerrewardpoints', [
+    'as' => 'admin.customerrewardpoints.store',
+    'uses' => 'CustomerRewardpointController@store',
+    'middleware' => 'can:admin.customerrewardpoints.create',
+]);
+
+Route::get('customerrewardpoints/{id}', [
+    'as' => 'admin.customerrewardpoints.edit',
+    'uses' => 'CustomerRewardpointController@show',
+    'middleware' => 'can:admin.customerrewardpoints.edit',
+]);
+
+Route::put('customerrewardpoints/{id}', [
+    'as' => 'admin.customerrewardpoints.update',
+    'uses' => 'CustomerRewardpointController@update',
+    'middleware' => 'can:admin.customerrewardpoints.edit',
+]);
+
+Route::delete('customerrewardpoints/{ids?}', [
+    'as' => 'admin.customerrewardpoints.destroy',
+    'uses' => 'CustomerRewardpointController@destroy',
+    'middleware' => 'can:admin.customerrewardpoints.destroy',
+]);
 

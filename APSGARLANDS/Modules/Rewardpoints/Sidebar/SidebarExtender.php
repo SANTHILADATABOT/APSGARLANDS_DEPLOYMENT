@@ -27,6 +27,24 @@ class SidebarExtender extends BaseSidebarExtender
                         $this->auth->hasAccess('admin.rewardpoints.edit')
                     );
                 });
+
+                $item->item(trans('rewardpointsgift::rewardpointsgifts.rewardpointsgift'), function (Item $item) {
+                    $item->weight(27);
+                    $item->route('admin.rewardpointsgift.index');
+                    $item->authorize(
+                        $this->auth->hasAccess('admin.rewardpointsgift.index')
+                    );
+                });
+                
+                $item->item(trans('rewardpointsgift::customerrewardpoints.customerrewardpoints'), function (Item $item) {
+                    $item->weight(27);
+                    $item->route('admin.customerrewardpoints.index');
+                    $item->authorize(
+                        $this->auth->hasAccess('admin.customerrewardpoints.index')
+                    );
+                });
+
+
             });
         });
     }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\RewardpointsGift\Http\Controllers;
+namespace Modules\RewardpointsGift\Http\Controllers\Admin;
 
 use Modules\RewardpointsGift\Entities\RewardpointGift;
 use Modules\RewardpointsGift\Entities\CustomerRewardPoint;
@@ -10,6 +10,8 @@ use Modules\Product\Http\Controllers\ProductSearch;
 use Modules\Rewardpoints\Entities\Rewardpoints;
 use Carbon\Carbon;
 use Modules\Admin\Traits\HasCrudActions;
+use DB;
+
 
 class CustomerRewardpointController
 {
@@ -21,10 +23,29 @@ class CustomerRewardpointController
      * @return \Illuminate\Http\Response
      */
     protected $model = CustomerRewardPoint::class;
-
+    
     public function index()
     {
-        dd("index Function");
+        $currentDateTime = Carbon::now();
+        $expaired_points_condition = "expairy_date < ".$currentDateTime;
+        $in_live_points_condition = "expairy_date >= ".$currentDateTime;
+
+        $customerRewardPoints = $this->model::with('user')
+        ->select('customer_id', \DB::raw('SUM(reward_points_earned) as reward_points_earned_total'))
+        ->addSelect(\DB::raw('SUM(reward_points_claimed) as reward_points_claimed_total'))
+        ->when($expaired_points_condition, function($qry){
+            return $qry->addSelect(\DB::raw('SUM(reward_points_claimed) as reward_points_claimed_total'));
+        })
+        ->when($in_live_points_condition, function($qry){
+            return $qry->addSelect(\DB::raw('SUM(reward_points_claimed) as reward_points_claimed_total'));
+        })
+        // ->whereHas('rewardpoints')
+        ->whereHas('user')
+        ->groupBy('customer_id')
+        ->get();
+        // ()->rewardpoints();
+        dd($customerRewardPoints);
+        
     }
 
     public function create( $request = null , $reward_type = null)
