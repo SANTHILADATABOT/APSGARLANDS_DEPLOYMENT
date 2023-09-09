@@ -31,24 +31,35 @@ class CustomerRewardpointController
         $in_live_points_condition = "expairy_date >= ".$currentDateTime;
 
         $customerRewardPoints = $this->model::with('user')
-        ->select('customer_id', \DB::raw('SUM(reward_points_earned) as reward_points_earned_total'))
-        ->addSelect(\DB::raw('SUM(reward_points_claimed) as reward_points_claimed_total'))
-        ->when($expaired_points_condition, function($qry){
-            return $qry->addSelect(\DB::raw('SUM(reward_points_claimed) as reward_points_claimed_total'));
+        // ->select('customer_id', \DB::raw('SUM(reward_points_earned) as reward_points_earned_total'))
+        // ->addSelect(\DB::raw('SUM(reward_points_claimed) as reward_points_claimed_total'))
+        // ->when($expaired_points_condition, function($qry){
+        //     return $qry->addSelect(\DB::raw('SUM(reward_points_claimed) as reward_points_claimed_total'));
+        // })
+        // ->when($in_live_points_condition, function($qry){
+        //     return $qry->addSelect(\DB::raw('SUM(reward_points_claimed) as reward_points_claimed_total'));
+        // })
+        // ->addSelect(\DB::raw('SUM(CASE WHEN reward_points_earned IS NOT NULL AND expairy_date < ? THEN reward_points_earned ELSE 0 END) as expaired_earned_rewardpoints', [$currentDateTime])
+        //     ->addSelect(\DB::raw('SUM(CASE WHEN reward_points_claimed IS NOT NULL AND expairy_date < ? THEN reward_points_claimed ELSE 0 END) as expaired_claimed_rewardpoints', [$currentDateTime]))
+        //     ->addSelect(\DB::raw('expaired_earned_rewardpoints - expaired_claimed_rewardpoints as expaired_points')))
+        // ->whereHas('user')
+        // ->groupBy('customer_id')
+        // ->get();
+        ->select('customer_id')
+        ->selectRaw('SUM(reward_points_earned) as reward_points_earned_total')
+        ->selectRaw('SUM(reward_points_claimed) as reward_points_claimed_total')
+        ->when($expaired_points_condition, function ($qry) use ($currentDateTime) {
+            $qry->selectRaw('SUM(CASE WHEN reward_points_earned IS NOT NULL AND expairy_date <= ? THEN reward_points_earned ELSE 0 END) as expaired_earned_rewardpoints', [$currentDateTime])
+                ->selectRaw('SUM(CASE WHEN reward_points_claimed IS NOT NULL AND created_at <= ? THEN reward_points_claimed ELSE 0 END) as expaired_claimed_rewardpoints', [$currentDateTime]);
         })
-        ->when($in_live_points_condition, function($qry){
-            return $qry->addSelect(\DB::raw('SUM(reward_points_claimed) as reward_points_claimed_total'));
+        ->when($in_live_points_condition, function ($qry) use ($currentDateTime) {
+            $qry->selectRaw('SUM(CASE WHEN reward_points_earned IS NOT NULL AND expairy_date > ? THEN reward_points_earned ELSE 0 END) as in_live_earned_rewardpoints', [$currentDateTime]);
         })
-        ->addSelect(\DB::selectRaw('SUM(CASE WHEN claimed_points IS NULL AND expiary_date <= ? THEN earned_points ELSE 0 END) as expaired_earned_rewardpoints', [$currentDateTime])
-        ->selectRaw('SUM(CASE WHEN claimed_points IS NOT NULL AND claimed_points <= ? AND expiary_date > ? THEN claimed_points ELSE 0 END) as expaired_claimed_rewardpoints', [$currentDateTime, $currentDateTime])
-        ->selectRaw('expaired_earned_rewardpoints - expaired_claimed_rewardpoints as expaired_points'))
-
+        ->addSelect(\DB::raw('(CASE WHEN SUM(reward_points_earned) IS NOT NULL AND SUM(reward_points_claimed) IS NOT NULL THEN SUM(reward_points_earned) - SUM(reward_points_claimed) ELSE 0 END) as expaired_points'))
         ->whereHas('user')
         ->groupBy('customer_id')
         ->get();
-        // ()->rewardpoints();
         dd($customerRewardPoints);
-        
     }
 
     function getExpairedRewardpoints(){
