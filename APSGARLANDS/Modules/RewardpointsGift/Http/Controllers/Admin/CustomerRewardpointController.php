@@ -42,7 +42,7 @@ class CustomerRewardpointController
         ->addSelect(\DB::selectRaw('SUM(CASE WHEN claimed_points IS NULL AND expiary_date <= ? THEN earned_points ELSE 0 END) as expaired_earned_rewardpoints', [$currentDateTime])
         ->selectRaw('SUM(CASE WHEN claimed_points IS NOT NULL AND claimed_points <= ? AND expiary_date > ? THEN claimed_points ELSE 0 END) as expaired_claimed_rewardpoints', [$currentDateTime, $currentDateTime])
         ->selectRaw('expaired_earned_rewardpoints - expaired_claimed_rewardpoints as expaired_points'))
-        // ->whereHas('rewardpoints')
+
         ->whereHas('user')
         ->groupBy('customer_id')
         ->get();
