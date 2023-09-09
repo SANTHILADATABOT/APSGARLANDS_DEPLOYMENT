@@ -39,6 +39,9 @@ class CustomerRewardpointController
         ->when($in_live_points_condition, function($qry){
             return $qry->addSelect(\DB::raw('SUM(reward_points_claimed) as reward_points_claimed_total'));
         })
+        ->addSelect(\DB::selectRaw('SUM(CASE WHEN claimed_points IS NULL AND expiary_date <= ? THEN earned_points ELSE 0 END) as expaired_earned_rewardpoints', [$currentDateTime])
+        ->selectRaw('SUM(CASE WHEN claimed_points IS NOT NULL AND claimed_points <= ? AND expiary_date > ? THEN claimed_points ELSE 0 END) as expaired_claimed_rewardpoints', [$currentDateTime, $currentDateTime])
+        ->selectRaw('expaired_earned_rewardpoints - expaired_claimed_rewardpoints as expaired_points'))
         // ->whereHas('rewardpoints')
         ->whereHas('user')
         ->groupBy('customer_id')
@@ -46,6 +49,14 @@ class CustomerRewardpointController
         // ()->rewardpoints();
         dd($customerRewardPoints);
         
+    }
+
+    function getExpairedRewardpoints(){
+        //$expaired_earned_rewardpoints => User earned rewardpoints, but expaired
+        //$expaired_claimed_rewardpoints => User claimed rewardpoints before expairy but on current date,earned rewardpoints expaired
+        //expaired_points = $expaired_earned_rewardpoints - $expaired_claimed_rewardpoints
+
+
     }
 
     public function create( $request = null , $reward_type = null)
