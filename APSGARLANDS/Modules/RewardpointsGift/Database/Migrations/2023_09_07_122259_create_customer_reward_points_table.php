@@ -19,7 +19,7 @@ return new class extends Migration
             $table->enum('reward_type',['birthday, firstsignup, firstorder, firstpayment, firstreview, manualoffer']);
             $table->integer('reward_points_earned')->nullable();
             $table->integer('reward_points_claimed')->nullable();
-            $table->dateTime('expairy_date');
+            $table->dateTime('expiry_date');
             $table->softDeletes();
             $table->timestamps();
         });

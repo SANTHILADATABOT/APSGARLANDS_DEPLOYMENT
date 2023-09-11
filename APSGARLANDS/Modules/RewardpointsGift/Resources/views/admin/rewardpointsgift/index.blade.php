@@ -39,12 +39,14 @@
                 // { data: 'customer_name', name: 'customer_name', orderable: true,searchable: false, width: '25%' },
                 { data: null, // Use null as the data source since we're not directly binding to a single attribute
                     render: function (data, type, row) {
+                        const capitalizedFirstName = row.first_name.charAt(0).toUpperCase() + row.first_name.slice(1);
+                        const capitalizedLastName = row.last_name.charAt(0).toUpperCase() + row.last_name.slice(1);
                         if (type === 'display') {
                             // Concatenate first_name and last_name attributes
-                            return row.first_name + ' ' + row.last_name;
+                            return capitalizedFirstName + ' ' + capitalizedLastName;
                         } else {
                             // For sorting and filtering, return the concatenated data
-                            return row.first_name + ' ' + row.last_name;
+                            return capitalizedFirstName + ' ' + capitalizedLastName;
                         }
                     },
                     name: 'customer_name', orderable: true,searchable: false, width: '25%' 
