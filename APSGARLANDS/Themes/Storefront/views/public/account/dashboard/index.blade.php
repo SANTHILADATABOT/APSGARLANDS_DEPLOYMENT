@@ -31,13 +31,7 @@
         <div class="panel-body">
             <ul class="list-inline user-info">
                 <li>
-                @if ($account->sso_google=='1' || $account->sso_fb=='1' )
-               <img src="{{ $account->sso_avatar }}" class="  profile-image"></img>
-               @elseif($account->sso_fb=='' && $account->sso_google=='' && (!empty($account->image_url)))
-               <img src="{{ $account->image_url }}" class=" profile-image"></img>
-               @else 
-               <i class="las la-user-circle"></i>
-                @endif
+                    <i class="las la-user-circle"></i>
                     <span>{{ $account->full_name }}</span>
                 </li>
 
