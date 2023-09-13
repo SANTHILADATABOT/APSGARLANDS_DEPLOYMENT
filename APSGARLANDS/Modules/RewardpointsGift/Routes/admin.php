@@ -25,6 +25,11 @@ Route::get('rewardpointsgift/{id}', [
     'uses' => 'RewardpointGiftController@show',
     'middleware' => 'can:admin.rewardpointsgift.edit',
 ]);
+Route::get('rewardpointsgift/customer/{id}', [
+    'as' => 'admin.rewardpointsgift.customer',
+    'uses' => 'RewardpointGiftController@edit',
+    'middleware' => 'can:admin.rewardpointsgift.edit',
+]);
 
 Route::put('rewardpointsgift/{id}', [
     'as' => 'admin.rewardpointsgift.update',

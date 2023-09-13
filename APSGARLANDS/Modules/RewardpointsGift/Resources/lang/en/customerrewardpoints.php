@@ -3,6 +3,8 @@
 return [
     'customerrewardpoint' => 'Customer Reward Point',
     'customerrewardpoints' => 'Customer Reward Points',
+    'title' => 'Reward Points Status',
+    'customername' => 'Customer Name',
     'table' => [
         'first_name' => 'First Name',
         'last_name' => 'Last Name',
@@ -18,6 +20,14 @@ return [
         'earned_reward_points' => 'Reward Points Earned',
         'claimed_reward_points' => 'Reward Points Claimed',
         'expiry_date' => 'Reward Expiry Date',
-        'created_at' => 'Action Date',
+        'created_at' => 'Entry Date',
     ],
+    'rewardtype' =>[
+        'birthday'=>'Birthday Reward',
+        'firstsignup' => 'Signup Reward ',
+        'firstorder'=>'First Order',
+        'firstpayment'=>'First Payment',
+        'firstreview' =>'First Review',
+        'manualoffer'=>'Manual Reward'
+    ]
 ];

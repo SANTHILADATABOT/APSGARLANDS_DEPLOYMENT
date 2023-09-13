@@ -28,7 +28,7 @@ class SidebarExtender extends BaseSidebarExtender
                     );
                 });
 
-                $item->item(trans('rewardpointsgift::rewardpointsgifts.rewardpointsgift'), function (Item $item) {
+                $item->item(trans('rewardpointsgift::rewardpointsgifts.title'), function (Item $item) {
                     $item->weight(27);
                     $item->route('admin.rewardpointsgift.index');
                     $item->authorize(
@@ -36,7 +36,7 @@ class SidebarExtender extends BaseSidebarExtender
                     );
                 });
                 
-                $item->item(trans('rewardpointsgift::customerrewardpoints.customerrewardpoints'), function (Item $item) {
+                $item->item(trans('rewardpointsgift::customerrewardpoints.title'), function (Item $item) {
                     $item->weight(27);
                     $item->route('admin.customerrewardpoints.index');
                     $item->authorize(

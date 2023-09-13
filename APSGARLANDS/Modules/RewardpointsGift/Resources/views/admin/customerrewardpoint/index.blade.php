@@ -1,9 +1,8 @@
 @extends('admin::layout')
 
 @component('admin::components.page.header')
-    @slot('title', trans('rewardpointsgift::customerrewardpoints.customerrewardpoints'))
-
-    <li class="active">{{ trans('rewardpointsgift::customerrewardpoints.customerrewardpoints') }}</li>
+    @slot('title', trans('rewardpointsgift::customerrewardpoints.title'))
+    <li class="active">{{ trans('rewardpointsgift::customerrewardpoints.title') }}</li>
 @endcomponent
 
 @component('admin::components.page.index_table')
@@ -13,15 +12,11 @@
     @component('admin::components.table')
         @slot('thead')
             <tr>
-                {{-- @include('admin::partials.table.select_all') --}}
-
                 <th>{{ trans('admin::admin.table.id') }}</th>
                 <th>{{ trans('rewardpointsgift::customerrewardpoints.table.customer_name') }}</th>
                 <th>{{ trans('rewardpointsgift::customerrewardpoints.table.email') }}</th>
                 <th>{{ trans('rewardpointsgift::customerrewardpoints.table.reward_points_earned_total') }}</th>
                 <th>{{ trans('rewardpointsgift::customerrewardpoints.table.reward_points_claimed_total') }}</th>
-                {{-- <th>{{ trans('rewardpointsgift::customerrewardpoints.table.expired_earned_rewardpoints') }}</th>
-                <th>{{ trans('rewardpointsgift::customerrewardpoints.table.expired_claimed_rewardpoints') }}</th> --}}
                 <th>{{ trans('rewardpointsgift::customerrewardpoints.table.in_live_earned_rewardpoints') }}</th>
                 <th>{{ trans('rewardpointsgift::customerrewardpoints.table.expired_points') }}</th>
             </tr>
@@ -52,11 +47,10 @@
                 { data: 'user.email', name: 'email',orderable: false,searchable: true, width: '25%' },                  
                 { data: 'reward_points_earned_total', name: 'reward_points_earned_total', searchable: false, orderable: true, width: '15%' },
                 { data: 'reward_points_claimed_total', name: 'reward_points_claimed_total', orderable: true,searchable: false, width: '15%' },
-                // { data: 'expired_earned_rewardpoints', name: 'expired_earned_rewardpoints', searchable: false, orderable: true, width: '15%' },
-                // { data: 'expired_claimed_rewardpoints', name: 'expired_claimed_rewardpoints', searchable: false, orderable: true, width: '15%' },
                 { data: 'in_live_earned_rewardpoints', name: 'in_live_earned_rewardpoints', orderable: true,searchable: false, width: '15%' },
                 { data: 'expired_points', name: 'expired_points', orderable: true,searchable: false, width: '10%' },
             ],
+            buttons: [],
         });
     </script>
 @endpush

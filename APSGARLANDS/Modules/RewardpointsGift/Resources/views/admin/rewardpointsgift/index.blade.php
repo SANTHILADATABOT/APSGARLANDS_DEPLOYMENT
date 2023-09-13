@@ -1,9 +1,9 @@
 @extends('admin::layout')
 
 @component('admin::components.page.header')
-    @slot('title', trans('rewardpointsgift::rewardpointsgifts.rewardpointsgift'))
+    @slot('title', trans('rewardpointsgift::rewardpointsgifts.title'))
 
-    <li class="active">{{ trans('rewardpointsgift::rewardpointsgifts.rewardpointsgift') }}</li>
+    <li class="active">{{ trans('rewardpointsgift::rewardpointsgifts.title') }}</li>
 @endcomponent
 
 @component('admin::components.page.index_table')
@@ -14,14 +14,11 @@
         @slot('thead')
             <tr>
                 @include('admin::partials.table.select_all')
-
-                {{-- <th>{{ trans('admin::admin.table.id') }}</th> --}}
-                {{-- <th>{{ trans('rewardpointsgift::rewardpointsgifts.table.first_name') }}</th>
-                <th>{{ trans('rewardpointsgift::rewardpointsgifts.table.last_name') }}</th> --}}
                 <th>{{ trans('rewardpointsgift::rewardpointsgifts.table.customer_name') }}</th>
                 <th>{{ trans('rewardpointsgift::rewardpointsgifts.table.email') }}</th>
+                <th>{{ trans('rewardpointsgift::rewardpointsgifts.table.order_count') }}</th>
+                <th>{{ trans('rewardpointsgift::rewardpointsgifts.table.total_order_amount') }}</th>
                 <th>{{ trans('rewardpointsgift::rewardpointsgifts.table.reward_point_value') }}</th>
-                <th>{{ trans('rewardpointsgift::rewardpointsgifts.table.reward_point_remarks') }}</th>
             </tr>
         @endslot
     @endcomponent
@@ -32,11 +29,7 @@
     <script>
         new DataTable('#rewardpointsgift-table .table', {
             columns: [
-                { data: 'checkbox', orderable: false, searchable: false, width: '3%' },
-               // { data: 'id', width: '5%', orderable: true,searchable: false, width: '5%'},
-                // { data: 'first_name', name: 'first_name', orderable: true,searchable: true, width: '20%' },
-                // { data: 'last_name', name: 'last_name', orderable: true, width: '15%' },
-                // { data: 'customer_name', name: 'customer_name', orderable: true,searchable: false, width: '25%' },
+                { data: 'checkbox', orderable: false, searchable: false, width: '5%' },
                 { data: null, // Use null as the data source since we're not directly binding to a single attribute
                     render: function (data, type, row) {
                         const capitalizedFirstName = row.first_name.charAt(0).toUpperCase() + row.first_name.slice(1);
@@ -49,11 +42,13 @@
                             return capitalizedFirstName + ' ' + capitalizedLastName;
                         }
                     },
-                    name: 'customer_name', orderable: true,searchable: false, width: '25%' 
+                    name: 'customer_name', orderable: true,searchable: false, width: '33%' 
                 },
-                { data: 'email', name: 'email', orderable: true,searchable: true, width: '25%' },
+                { data: 'email', name: 'email', orderable: true,searchable: true, width: '33%' },
+                { data: 'order_count', name: 'order_count', searchable: false, orderable: true, width: '20%' },
+                { data: 'total_order_amount', orderable: true,searchable: false, width: '20%' },
                 {
-                    data: 'rewardpointsgift.reward_point_value',
+                    data: 'reward_point_value',
                     render: function (data, type, row) {
                         if (data) {
                             return data; // If 'rewardpointsgift.reward_point_value' exists, return it
@@ -61,24 +56,7 @@
                             return '0'; // Provide a default value or message when it's null
                         }
                      }
-                   
                 },
-                {
-                    data: 'rewardpointsgift.reward_point_remarks',
-                    render: function (data, type, row) {
-                        if (data) {
-                            return data; // If 'rewardpointsgift.reward_point_remarks' exists, return it
-                        } else {
-                            return '--'; // Provide a default value or message when it's null
-                        }
-                     }
-                   
-                }
-                    
-                    // data: 'rewardpointsgift.reward_point_value', name: 'reward_point_value', searchable: false, orderable: true, width: '20%' },
-                // { data: 'rewardpointsgift.reward_point_remarks', name: 'reward_point_remarks', orderable: true,searchable: false, width: '20%' },
-                // { data: 'rewardpointsgift.reward_point_value', name: 'reward_point_value', searchable: false, orderable: true, width: '20%' },
-                // { data: 'rewardpointsgift.reward_point_remarks', name: 'reward_point_remarks', orderable: true,searchable: false, width: '20%' },
             ],
         });
     </script>

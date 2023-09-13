@@ -10,6 +10,7 @@ use Modules\Admin\Traits\HasCrudActions;
 use DB;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Modules\User\Entities\User;
 
 class CustomerRewardpointController extends Controller
 {
@@ -45,16 +46,12 @@ class CustomerRewardpointController extends Controller
     public function show($id)
     {
         $entity = CustomerRewardPoint::where('customer_id',$id)->get();
-        
-        // $entity = User::with('rewardpointsgift')->find($id);
-        // $entity = $entity->user;   returns corresponding user
-        // dd($entity);
-        
+        $customer = User::find($id);      
         if (request()->wantsJson()) {
             return $entity;
         }
 
-        return view("{$this->viewPath}.show")->with(['customerrewardpoint' => $entity]);
+        return view("{$this->viewPath}.show")->with(['customerrewardpoint' => $entity, 'customer'=> $customer]);
     }
 
     function getexpiredRewardpoints(){

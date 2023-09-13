@@ -12,6 +12,7 @@
             @endif
         </div>
     </div>
+  
 
     <div class="box box-primary">
         <div class="box-body index-table" id="{{ isset($resource) ? "{$resource}-table" : '' }}">
