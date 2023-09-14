@@ -32,6 +32,7 @@ export default {
                 newBillingAddress: false,
                 newShippingAddress: false,
                 ship_to_a_different_address: false,
+                terms_and_conditions: false,
             },
             fixedrate: {
                 price: 0,
@@ -58,6 +59,13 @@ export default {
     },
 
     computed: {
+        shouldDisableCheckbox() {
+            // Check if the conditions for disabling the checkbox are met
+            return (
+              this.form.shipping_method === 'flat_rate' && !this.serviceAvailable
+            );
+          },
+        
         hasAddress() {
             return Object.keys(this.addresses).length !== 0;
         },
@@ -83,19 +91,26 @@ export default {
         },
 
         shouldShowPaymentInstructions() {
-            return ["bank_transfer", "check_payment"].includes(
+            return ["bank_transfer", "check_payment","razerpay"].includes(
                 this.form.payment_method
             );
         },
 
         paymentInstructions() {
             if (this.shouldShowPaymentInstructions) {
+                console.log('instruction',this.gateways[this.form.payment_method].instructions);
                 return this.gateways[this.form.payment_method].instructions;
             }
         },
     },
 
     watch: {
+        shouldDisableCheckbox(newVal) {
+            if (newVal && this.form.terms_and_conditions) {
+              // If the checkbox was checked and now becomes disabled, uncheck it
+              this.form.terms_and_conditions = false;
+            }
+          },
         "form.billingAddressId": function () {
             this.mergeSavedBillingAddress();
         },
@@ -172,6 +187,7 @@ export default {
         },
 
         "form.payment_method": function (newPaymentMethod) {
+            console.log('this.form.payment_method',this.form.payment_method);
             if (newPaymentMethod === "paypal") {
                 this.$nextTick(this.renderPayPalButton);
             }
@@ -914,7 +930,7 @@ for (let i = 0; i < len; i++) {
                 autoOpen: true,
             });
         },
-
+       
         openModal(termsUrl) {
             // Make an AJAX request to the Laravel named route
             $.ajax({
