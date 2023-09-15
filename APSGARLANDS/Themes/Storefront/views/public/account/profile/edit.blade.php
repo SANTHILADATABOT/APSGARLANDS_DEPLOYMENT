@@ -14,7 +14,7 @@
 
         <div class="panel-body">
             <div class="my-profile">
-                <form method="POST" action="{{ route('account.profile.update') }}">
+                <form method="POST" enctype="multipart/form-data"  action="{{ route('account.profile.update') }}">
                     @csrf
                     @method('put')
 
