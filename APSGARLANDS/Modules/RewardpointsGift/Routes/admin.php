@@ -8,7 +8,7 @@ Route::get('rewardpointsgift', [
     'middleware' => 'can:admin.rewardpointsgift.index',
 ]);
 
-Route::get('rewardpointsgift/create', [
+Route::get('rewardpointsgift/create/{id}', [
     'as' => 'admin.rewardpointsgift.create',
     'uses' => 'RewardpointGiftController@create',
     'middleware' => 'can:admin.rewardpointsgift.create',

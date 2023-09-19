@@ -7,7 +7,7 @@
         href="{{ route('admin.rewardpointsgift.index')}}">{{ trans('rewardpointsgift::rewardpointsgifts.title') }}</a>
     </li>
 
-    <li><a href="{{ route('admin.rewardpointsgift.edit',['id'=>$rewardpointsgifted->user_id]) }}">{{ trans('rewardpointsgift::rewardpointsgifts.rewardpointsgifts') }}</a></li>
+    <li><a href="{{ route('admin.rewardpointsgift.edit',['id'=>$rewardpointsgifted->user_id]) }}">{{ trans('rewardpointsgift::rewardpointsgifts.customer_wise_allocation') }}</a></li>
     <li class="active">{{ trans('admin::resource.edit', ['resource' => trans('rewardpointsgift::rewardpointsgifts.rewardpointsgift')]) }}</li>
 @endcomponent
 

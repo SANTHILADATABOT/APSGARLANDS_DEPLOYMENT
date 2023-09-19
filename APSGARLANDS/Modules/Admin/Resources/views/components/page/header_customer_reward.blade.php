@@ -11,9 +11,8 @@
     @if (!empty($customername))
         <h3>{{ $title . ' (' . $customername . ')' }}
     @else 
-    <h3>{{ $title }}
+        <h3>{{ $title }}
     @endif
-
     </h3>
 
     <ol class="breadcrumb">
@@ -21,4 +20,6 @@
 
         {{ $slot }}
     </ol>
+
+
 @endsection

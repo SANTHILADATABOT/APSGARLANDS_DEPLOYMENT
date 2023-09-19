@@ -58,7 +58,7 @@ class RewardpointsGift extends Model
             ->groupBy('users.id','users.first_name', 'users.last_name', 'users.email', 'users.phone')
             ->newQuery();
 
-      
+
         return new RewardpointsGiftTable($query);
     }
     // public function customertable($request)

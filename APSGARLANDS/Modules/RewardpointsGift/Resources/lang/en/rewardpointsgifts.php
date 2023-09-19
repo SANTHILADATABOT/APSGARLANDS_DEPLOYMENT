@@ -3,7 +3,9 @@
 return [
     'rewardpointsgift' => 'Reward Points Gifted',
     'rewardpointsgifts' => 'Reward Points Gifts',
-    'title' => 'Allocate Reward Points',
+    'title' => 'Allocated Reward Points',
+    'title_new' => 'Allocate Reward Points',
+    'customer_wise_allocation' => 'Customer Wise Allocation',
     'table' => [
         'first_name' => 'First Name',
         'last_name' => 'Last Name',

@@ -7,7 +7,9 @@ use Modules\Admin\Traits\HasCrudActions;
 use Modules\RewardpointGift\Http\Requests\SaveTagRequest;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Modules\Core\Http\Requests\Request as RequestsRequest;
 use Modules\Rewardpoints\Entities\Rewardpoints;
+use Modules\RewardpointsGift\Entities\CustomerRewardPoint;
 use Modules\User\Entities\User;
 use Modules\RewardpointsGift\Http\Controllers\CustomerRewardpointController;
 
@@ -110,28 +112,42 @@ class RewardpointGiftController extends Controller
             ->withSuccess(trans('admin::messages.resource_saved', ['resource' => $this->getLabel()]));
     }
 
-    public function create()
-    {
-        $rewardpointsgifted = RewardpointsGift::select('id')->where('id',$id)->first();
-        
-        $this->disableSearchSyncing();
-       $entity = new RewardpointsGift();
-            
-            $entity->user_id = $id;
-            $entity->reward_point_remarks = $this->getRequest('update')->reward_point_remarks;
-            $entity->reward_point_value = $this->getRequest('update')->reward_point_value;
-            $entity->save();
+    public function create($id)
+    {        
+        $user = User::find($id);
+        return view("{$this->viewPath}.create")->with(['customer' => $user]);
+    }
 
+    public function store(Request $request)
+    {
+     
+        $customer_id = request()->input('customer_id');
+        $rewardpointsgift = RewardpointsGift::create([
+            'user_id' => $customer_id,
+            'reward_point_value' => request()->input('reward_point_value'),
+            'reward_point_remarks' => request()->input('reward_point_remarks'),
+        ]);
+        
+        
+        
+        if ($rewardpointsgift->id) {
             $CustmerRewardPointsController = new CustomerRewardpointController();
-            $CustmerRewardPointsController->create($entity,'manualoffer');
-            $this->searchable($entity);
-    
-            if (method_exists($this, 'redirectTo')) {
-                return $this->redirectTo($entity)
-                    ->withSuccess(trans('admin::messages.resource_saved', ['resource' => $this->getLabel()]));
-            }
-    
-            return redirect()->route("admin.rewardpointsgift.index")
+            $expiry_date = $CustmerRewardPointsController->getRewardExpiaryTimeSpan();
+            
+            $customerrewardpoints = CustomerRewardPoint::create([
+                'customer_id' => $customer_id,
+                'reward_type' => 'manualoffer',
+                'reward_points_earned' => request()->input('reward_point_value'),
+                'reward_points_claimed' => request()->input('reward_points_claimed'),
+                'expiry_date' => $expiry_date,
+            ]);
+            
+
+            return redirect()->route("admin.rewardpointsgift.edit",['id'=> $customer_id])
                 ->withSuccess(trans('admin::messages.resource_saved', ['resource' => $this->getLabel()]));
+        }
+dd('false');
+        return redirect()->route("admin.rewardpointsgift.index")
+            ->withSuccess(trans('admin::messages.resource_saved', ['resource' => $this->getLabel()]));
     }
 }

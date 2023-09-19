@@ -14,9 +14,9 @@ class CustomerRewardPoint extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = ['id','customer_id','reward_type','earned_reward_points','claimed_reward_points'];
+    protected $fillable = ['id','customer_id','reward_type','reward_points_earned','claimed_reward_points','expiry_date'];
     
-    protected $dates = ['expiry_date','deleted_at','created_at','updated_at'];
+    protected $dates = ['deleted_at','created_at','updated_at'];
     
      /** 
         * Get the Log of Rewards Gained by  and Rewards Redeemed  by User

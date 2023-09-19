@@ -1,12 +1,11 @@
 @extends('admin::layout')
 
 @component('admin::components.page.header_customer_reward')
-    @slot('title', trans('rewardpointsgift::rewardpointsgifts.rewardpointsgifts'))
-    {{-- @slot('customername', $customer->full_name) --}}
+    @slot('title', trans('rewardpointsgift::rewardpointsgifts.customer_wise_allocation') . '(' . $customer->full_name . ')')
     <li class="pointer"><a
             href="{{ route('admin.rewardpointsgift.index') }}">{{ trans('rewardpointsgift::rewardpointsgifts.title') }}</a>
     </li>
-    <li class="active">{{ trans('rewardpointsgift::rewardpointsgifts.rewardpointsgifts') }}</li>
+    <li class="active">{{ trans('rewardpointsgift::rewardpointsgifts.customer_wise_allocation') }}</li>
 @endcomponent
 
 @component('admin::components.page.header')
@@ -14,10 +13,16 @@
 @endcomponent
 
 @component('admin::components.page.index_table')
-
+    @slot('create_buttons')
+    <div class="text-right">
+        <a href="{{ route('admin.rewardpointsgift.create', ['id' => $customer->id]) }}"
+            class="btn btn-primary btn-actions btn-create ">
+            {{ trans('rewardpointsgift::rewardpointsgifts.button.create') }}
+        </a>
+    </div>
+        {{-- <button type="button" onclick="redirectToCreate($customer->id)" class="btn btn-primary btn-actions btn-create f-right">{{ trans('rewardpointsgift::rewardpointsgifts.button.create')}}</button> --}}
+    @endslot
     @slot('resource', 'rewardpointsgift')
-    @slot('name', trans('rewardpointsgift::rewardpointsgifts.rewardpointsgift'))
-
     @component('admin::components.table')
         @slot('thead')
             <tr>
@@ -41,7 +46,7 @@
             </tr>
         @endforeach
     @endcomponent
-   
+
 @endcomponent
 
 
@@ -53,11 +58,15 @@
             customerRewardPoints.forEach(function(element) {
                 element.addEventListener('click', function() {
                     const id = element.getAttribute('data-id');
-                    let routeUrl = '{{ route("admin.rewardpointsgift.customer", ":id") }}';
+                    let routeUrl = '{{ route('admin.rewardpointsgift.customer', ':id') }}';
                     routeUrl = routeUrl.replace(':id', id);
                     window.location.href = routeUrl;
                 });
             });
         });
+
+        function redirectToCreate(id) {
+            console.log("redirectToCreate Id ", id);
+        }
     </script>
 @endpush
