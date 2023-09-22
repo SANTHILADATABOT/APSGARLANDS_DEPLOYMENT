@@ -529,31 +529,7 @@ export default {
             if (!this.form.terms_and_conditions || this.placingOrder) {
                 return;
             }
-            var deliverydate = document.getElementsByName('delivery_date[]');
-            var productId = document.getElementsByName('productId[]');
-
-            var del_len = deliverydate.length;
-            var len = productId.length;
-/*********************************delivery date validation commanded**************************** */
-//             console.log('len',len);
-//             console.log('del_len',del_len);
-//             for (let i = 0; i < del_len; i++) {
-                 
-//                 const deliveryDateValue = deliverydate[i].value;
-               
-//             if(!deliveryDateValue){
-// var del_id="delivery_date"+productId[i].value;
-// console.log('del_id',del_id);
-//                 var inputElement = document.getElementById(del_id);
-    
-//                 // Set focus on the input element
-//                 inputElement.focus();
-//                 return false;
-//             }
-               
-//             }
-            
-/*********************************************************************** */
+           console.log('it s placeorder function',this.form.payment_method)
             this.placingOrder = true;
 
             $.ajax({
@@ -566,57 +542,12 @@ export default {
                 },
             })
                 .then((response) => {
-                    //  setdeliverydate(response.orderId);
-                      /*********************delivery date sending to backend funtion*************************************** */
-//console.log('fsafs');
-
-
-
-var productDeliveryDate = [];
-
-for (let i = 0; i < len; i++) {
-    const productIdValue = productId[i].value;
-    const deliveryDateValue = deliverydate[i].value;
-
-    const newObj = {
-        product_id: productIdValue,
-        delivery_date: deliveryDateValue,
-        orderid: response.orderId
-    };
-
-    productDeliveryDate.push(newObj);
-}
-
-//console.log(productDeliveryDate);
-//multipe date updation cammded
-// $.ajax({
-//     method: "POST",
-//     url: route("checkout.setdeliverydate"),
-//     data: {productDeliveryDate },
-// })
-// .then(responsed => {
-//     // console.log(responsed.data);
-//   })
-//   .catch(error => {
-//     console.error(error);
-//   });
-/**************************************************************************************************** */
+                  console.log('response123',response);
                     if (response.redirectUrl) {
                         window.location.href = response.redirectUrl;
-                    } else if (this.form.payment_method === "stripe") {
-                        this.confirmStripePayment(response);
-                    } else if (this.form.payment_method === "paytm") {
-                        this.confirmPaytmPayment(response);
-                    } else if (this.form.payment_method === "razorpay") {
-                        this.confirmRazorpayPayment(response);
-                    } else if (this.form.payment_method === "paystack") {
-                        this.confirmPaystackPayment(response);
-                    } else if (this.form.payment_method === "authorizenet") {
-                        this.confirmAuthorizeNetPayment(response);
-                    } else if (this.form.payment_method === "flutterwave") {
-                        this.confirmFlutterWavePayment(response);
-                    } else if (this.form.payment_method === "mercadopago") {
-                        this.confirmMercadoPagoPayment(response);
+                    } else if (this.form.payment_method ==="razerpay") { 
+                        console.log("confirmRazerpayPayment");
+                        this.confirmRazerpayPayment(response);
                     } else {
                         this.confirmOrder(
                             response.orderId,
@@ -628,7 +559,7 @@ for (let i = 0; i < len; i++) {
                     if (xhr.status === 422) {
                         this.errors.record(xhr.responseJSON.errors);
                     }
-
+                    console.log('error',this.form.payment_method);
                     this.$notify(xhr.responseJSON.message);
 
                     this.placingOrder = false;
@@ -636,6 +567,7 @@ for (let i = 0; i < len; i++) {
         },
 
         confirmOrder(orderId, paymentMethod, params = {}) {
+            console.log('it s a confirm order function');
             $.ajax({
                 method: "GET",
                 url: route("checkout.complete.store", {
@@ -931,6 +863,46 @@ for (let i = 0; i < len; i++) {
             });
         },
        
+        confirmRazerpayPayment(response) {
+            const {
+                amount,
+                country,
+                bill_mobile,
+                bill_name,
+                currency,
+                bill_email,
+                key,
+                orderid,
+                redirectedurl,
+                ref,
+                vcode,
+                verifykey
+            } = response;
+        
+          
+            const url = `${redirectedurl}?amount=${amount}&country=${country}&bill_email=${bill_email}&bill_mobile=${bill_mobile}&bill_name=${bill_name}&currency=${currency}&key=${key}&orderid=${orderid}&ref=${ref}&vcode=${vcode}&verifykey=${verifykey}&callback=?`;
+            window.location.href = url;
+            // Make a GET request using the Fetch API and handle the response
+            // fetch(url)
+            //     .then(response => {
+            //         if (!response.ok) {
+            //             throw new Error('Network response was not ok');
+            //         }
+            //         return response.json();
+            //     })
+            //     .then(data => {
+            //         // Handle the response data here
+            //         console.log(data, 'data');
+            //         // You can perform further actions with the response data as needed
+            //     })
+            //     .catch(error => {
+            //         // Handle any errors here
+            //         console.error(error);
+            //     });
+        }
+        
+        ,
+        
         openModal(termsUrl) {
             // Make an AJAX request to the Laravel named route
             $.ajax({
@@ -953,11 +925,7 @@ for (let i = 0; i < len; i++) {
           hideTermsModal(){
             $('#terms-modal').modal('hide');
           },
-        //If we need accept the terms button 
-        //   acceptTerms(){
-        //     this.form.terms_and_conditions = true;
-        //     hideTermsModal();
-        //   }
+        
 
     },
 };

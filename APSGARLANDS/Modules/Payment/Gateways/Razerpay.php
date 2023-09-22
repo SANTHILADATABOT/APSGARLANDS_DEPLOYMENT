@@ -25,19 +25,61 @@ class Razerpay implements GatewayInterface
                             'apiSecret' =>  setting('razerpay_key_secret'));
         return json_encode($apiCreds);
     }
-
     public function purchase(Order $order, Request $request)
-    {
-        $razerpayOrder = $this->client()->order->create([
-            'receipt' => $order->id,
-            'amount' => $order->total->convertToCurrentCurrency()->subunit(),
-            'currency' => currency(),
-            'payment_capture' => true,
-        ]);
-
-        return new RazerpayResponse($razerpayOrder);
+    { 
+        $redirectedurl = setting('razerpay_url');
+        $amount = $order->total->convertToCurrentCurrency()->round()->amount();
+        $merchantID = setting('razerpay_merchant_id'); // Replace with your actual merchant ID
+        $oid = $order->id;
+        $verifykey = setting('razerpay_key_secret'); // Replace with your actual verify key
+        $url = $redirectedurl . $merchantID;
+    
+        $billingFirstName = $order->billing_first_name;
+        $billingLastName = $order->billing_last_name;
+        $billingEmail = $order->customer_email;
+        $billingMobile = $order->customer_phone;
+        $billingCountry = $order->billing_country;
+        $billingName = $billingFirstName . ' ' . $billingLastName;
+    
+        // Calculate $vcode
+        $vcode = md5($amount . $merchantID . $oid . $verifykey);
+    
+        // Create an associative array with the details
+        $data = [
+            'redirectedurl' => $redirectedurl,
+            'amount' => $amount,
+            'merchantID' => $merchantID,
+            'oid' => $oid,
+            'verifykey' => $verifykey,
+            'url' => $url,
+            'billingFirstName' => $billingFirstName,
+            'billingLastName' => $billingLastName,
+            'billingEmail' => $billingEmail,
+            'billingMobile' => $billingMobile,
+            'billingCountry' => $billingCountry,
+            'billingName' => $billingName,
+            'vcode' => $vcode,
+        ];
+    
+        // Create a new RazerpayResponse with the order instance
+        return new RazerpayResponse($order);
     }
+    
 
+    
+    // public function purchase(Order $order, Request $request)
+    // { dd( $request);
+    //     $razerpayOrder = $this->client()->order->create([
+    //         'receipt' => $order->id,
+    //         'amount' => $order->total->convertToCurrentCurrency()->subunit(),
+    //         'currency' => currency(),
+    //         'payment_capture' => true,
+    //     ]);
+    //    // dd($razerpayOrder);
+    
+    //     return new RazerpayResponse($razerpayOrder);
+    // }
+    
     public function complete(Order $order)
     {
         /*$attributes = [
