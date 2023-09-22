@@ -50,5 +50,4 @@
     @if (setting('testimonial_slider_enabled'))
         <div id="testimonial_slide_div"></div>
     @endif
-
 @endsection
