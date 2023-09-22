@@ -36,6 +36,11 @@
         @php
             $i = 1;
         @endphp
+        @if(count($rewardpointsgift)==0)
+        <tr>
+            <td colspan="5" class="text-center">{{ "No Data Found" }}</td>
+        </tr>
+        @endif
         @foreach ($rewardpointsgift as $row)
             <tr class="customerrewardpoint" data-id={{ $row->id }}>
                 <td class="text-center">{{ $i++ }}</td>

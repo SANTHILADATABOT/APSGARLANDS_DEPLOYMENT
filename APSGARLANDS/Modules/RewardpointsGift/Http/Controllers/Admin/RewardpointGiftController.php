@@ -4,7 +4,6 @@ namespace Modules\RewardpointsGift\Http\Controllers\Admin;
 
 use Modules\RewardpointsGift\Entities\RewardpointsGift;
 use Modules\Admin\Traits\HasCrudActions;
-use Modules\RewardpointGift\Http\Requests\SaveTagRequest;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Modules\Core\Http\Requests\Request as RequestsRequest;
@@ -12,7 +11,7 @@ use Modules\Rewardpoints\Entities\Rewardpoints;
 use Modules\RewardpointsGift\Entities\CustomerRewardPoint;
 use Modules\User\Entities\User;
 use Modules\RewardpointsGift\Http\Controllers\CustomerRewardpointController;
-
+use Illuminate\Support\Facades\DB;
 
 class RewardpointGiftController extends Controller
 {
@@ -63,14 +62,14 @@ class RewardpointGiftController extends Controller
 
     public function show($id)
     {
-        $entity = RewardpointsGift::where('user_id',$id)->get();
+        $entity = RewardpointsGift::where('user_id', $id)->get();
         $customer = User::find($id);
 
         if (request()->wantsJson()) {
             return $entity;
         }
 
-        return view("{$this->viewPath}.show")->with(['rewardpointsgift' => $entity, 'customer'=> $customer]);
+        return view("{$this->viewPath}.show")->with(['rewardpointsgift' => $entity, 'customer' => $customer]);
     }
 
 
@@ -78,6 +77,7 @@ class RewardpointGiftController extends Controller
     {
         $entity = RewardpointsGift::with('user')->find($id);
 
+        
         if (request()->wantsJson()) {
             return $entity;
         }
@@ -89,19 +89,17 @@ class RewardpointGiftController extends Controller
 
     public function update($id)
     {
-        $rewardpointsgifted = RewardpointsGift::select('id')->where('id',$id)->first();
-        
-        $this->disableSearchSyncing();
-      
-            $entity = $this->getEntity($rewardpointsgifted->id);
-            $entity->update(
-                $this->getRequest('update')->except(['_token','_method'])
-            );
-            $entity->user_id = $id;
-              
+        $entity = RewardpointsGift::find($id);
+        $entity->update(
+            $this->getRequest('update')->except(['_token', '_method'])
+        );
+        $entity = CustomerRewardpointController::find($entity->customer_reward_id);
+        $entity->update(
+            $this->getRequest('update')->except(['_token', '_method'])
+        );
+
         $CustmerRewardPointsController = new CustomerRewardpointController();
-        $CustmerRewardPointsController->create($entity,'manualoffer');
-        $this->searchable($entity);
+        $CustmerRewardPointsController->create($entity, 'manualoffer');
 
         if (method_exists($this, 'redirectTo')) {
             return $this->redirectTo($entity)
@@ -113,27 +111,19 @@ class RewardpointGiftController extends Controller
     }
 
     public function create($id)
-    {        
+    {
         $user = User::find($id);
         return view("{$this->viewPath}.create")->with(['customer' => $user]);
     }
 
     public function store(Request $request)
     {
-     
-        $customer_id = request()->input('customer_id');
-        $rewardpointsgift = RewardpointsGift::create([
-            'user_id' => $customer_id,
-            'reward_point_value' => request()->input('reward_point_value'),
-            'reward_point_remarks' => request()->input('reward_point_remarks'),
-        ]);
-        
-        
-        
-        if ($rewardpointsgift->id) {
+        DB::beginTransaction();
+        try {
+            $customer_id = request()->input('customer_id');
             $CustmerRewardPointsController = new CustomerRewardpointController();
             $expiry_date = $CustmerRewardPointsController->getRewardExpiaryTimeSpan();
-            
+
             $customerrewardpoints = CustomerRewardPoint::create([
                 'customer_id' => $customer_id,
                 'reward_type' => 'manualoffer',
@@ -141,13 +131,24 @@ class RewardpointGiftController extends Controller
                 'reward_points_claimed' => request()->input('reward_points_claimed'),
                 'expiry_date' => $expiry_date,
             ]);
-            
 
-            return redirect()->route("admin.rewardpointsgift.edit",['id'=> $customer_id])
+            RewardpointsGift::create([
+                'user_id' => $customer_id,
+                'reward_point_value' => request()->input('reward_point_value'),
+                'reward_point_remarks' => request()->input('reward_point_remarks'),
+                'customer_reward_id' => $customerrewardpoints->id
+            ]);
+
+            // Commit the transaction if both inserts are successful
+            DB::commit();
+            return redirect()->route("admin.rewardpointsgift.edit", ['id' => $customer_id])
                 ->withSuccess(trans('admin::messages.resource_saved', ['resource' => $this->getLabel()]));
+        } catch (\Exception $e) {
+            // Handle the exception (e.g., log it) and rollback the transaction
+            DB::rollBack();
+            // throw $e; // Re-throw the exception to propagate it
+                return redirect()->route("admin.rewardpointsgift.edit", ['id' => $customer_id])->with('error', trans('admin::messages.resource_save_failed', 
+                    ['resource' => $this->getLabel()]));
         }
-dd('false');
-        return redirect()->route("admin.rewardpointsgift.index")
-            ->withSuccess(trans('admin::messages.resource_saved', ['resource' => $this->getLabel()]));
     }
 }
