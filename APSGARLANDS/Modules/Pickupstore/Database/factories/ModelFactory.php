@@ -16,11 +16,11 @@ $factory->define(Pickupstore::class, function (Faker\Generator $faker) {
 
 return [
     'name' => $faker->randomElement($name),
-    'tagline' => '',
+    'tagline' => $faker->catchPhrase,
     'email' => $faker->randomElement($email),
     'phone' => $faker->randomElement($phone),
-    'address_1' => '',
-    'address_2' => '',
+    'address_1' => $faker->streetAddress,
+    'address_2' => $faker->secondaryAddress,
     'city' => $selectedCity,
     'store_state'=> $faker->randomElement($state),
     'store_country'=> $faker->randomElement($country),
