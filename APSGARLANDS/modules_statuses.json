@@ -24,7 +24,7 @@
     "Shipping": true,
     "Slider": true,
     "Support": true,
-    "Tax": true,
+    "Tax": false,
     "Transaction": true,
     "Translation": true,
     "User": true,
@@ -37,5 +37,8 @@
     "Address": true,
     "Sms": true,
     "RewardpointsGift": true,
-    "Rewardpoints": true
+    "Rewardpoints": true,
+    "Testimonial": true,
+    "Fixedrate": true,
+    "Pickupstore": true
 }

@@ -5,6 +5,7 @@ namespace Modules\User\Entities;
 use Modules\Order\Entities\Order;
 use Modules\User\Admin\UserTable;
 use Modules\Review\Entities\Review;
+use Modules\Testimonial\Entities\Testimonial;
 use Illuminate\Auth\Authenticatable;
 use Modules\Address\Entities\Address;
 use Modules\Product\Entities\Product;
@@ -32,6 +33,13 @@ class User extends EloquentUser implements AuthenticatableContract
         'last_name',
         'first_name',
         'permissions',
+        'sso_id',
+        'sso_username',
+        'sso_locale',
+        'sso_avatar',
+        'is_sso_google',
+        'is_sso_fb',
+        'image_url'
     ];
 
     /**
@@ -148,9 +156,11 @@ class User extends EloquentUser implements AuthenticatableContract
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
+    
     public function wishlist()
     {
-        return $this->belongsToMany(Product::class, 'wish_lists')->withTimestamps();
+        // return $this->belongsToMany(Product::class, 'wish_lists')->withTimestamps();
+        return $this->belongsToMany(Product::class, 'wish_lists')->where('is_deleted', 0)->withTimestamps();
     }
 
     /**
@@ -181,6 +191,11 @@ class User extends EloquentUser implements AuthenticatableContract
     public function reviews()
     {
         return $this->hasMany(Review::class, 'reviewer_id');
+    }
+
+    public function testimonials()
+    {
+        return $this->hasMany(Testimonial::class, 'user_id');
     }
 
     /**
