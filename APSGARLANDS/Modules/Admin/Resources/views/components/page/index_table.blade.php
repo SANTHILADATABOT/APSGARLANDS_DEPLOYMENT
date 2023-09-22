@@ -15,9 +15,7 @@
     </div>
 
     @isset($create_buttons)
-        
             {{ $create_buttons }}
-        
     @endisset
     <div class="box box-primary">
         <div class="box-body index-table" id="{{ isset($resource) ? "{$resource}-table" : '' }}">
@@ -62,13 +60,18 @@
                 $('.btn-delete').trigger('click');
             });
 
-            @isset($resource)
+            @if (isset($resource) && !isset($no_delete_btn))
                 DataTable.setRoutes('#{{ $resource }}-table .table', {
                     index: '{{ "admin.{$resource}.index" }}',
                     edit: '{{ "admin.{$resource}.edit" }}',
                     destroy: '{{ "admin.{$resource}.destroy" }}',
                 });
-            @endisset
+            @else
+            DataTable.setRoutes('#{{ $resource }}-table .table', {
+                    index: '{{ "admin.{$resource}.index" }}',
+                    edit: '{{ "admin.{$resource}.edit" }}',
+                });
+            @endif
         </script>
     @endpush
 @endisset

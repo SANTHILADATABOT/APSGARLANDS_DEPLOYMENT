@@ -7,6 +7,7 @@
 
 @component('admin::components.page.index_table')
     @slot('resource', 'customerrewardpoints')
+    @slot('no_delete_btn', true)
     @slot('name', trans('rewardpointsgift::customerrewardpoints.customerrewardpoint'))
 
     @component('admin::components.table')
@@ -47,10 +48,13 @@
                 { data: 'user.email', name: 'email',orderable: false,searchable: true, width: '25%' },                  
                 { data: 'reward_points_earned_total', name: 'reward_points_earned_total', searchable: false, orderable: true, width: '15%' },
                 { data: 'reward_points_claimed_total', name: 'reward_points_claimed_total', orderable: true,searchable: false, width: '15%' },
-                { data: 'in_live_earned_rewardpoints', name: 'in_live_earned_rewardpoints', orderable: true,searchable: false, width: '15%' },
+                { data: null,
+                    render: function(row){
+                        return row.reward_points_earned_total - row.reward_points_claimed_total-row.expired_points;
+                    },
+                    name:'in_live',orderable: true,searchable: false, width: '15%'},
                 { data: 'expired_points', name: 'expired_points', orderable: true,searchable: false, width: '10%' },
             ],
-            buttons: [],
         });
     </script>
 @endpush

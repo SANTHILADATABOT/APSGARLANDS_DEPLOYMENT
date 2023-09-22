@@ -70,8 +70,6 @@
             });
         });
 
-        function redirectToCreate(id) {
-            console.log("redirectToCreate Id ", id);
-        }
+       
     </script>
 @endpush

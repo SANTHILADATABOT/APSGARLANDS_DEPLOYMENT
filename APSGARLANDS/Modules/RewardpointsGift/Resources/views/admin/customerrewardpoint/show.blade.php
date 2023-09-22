@@ -34,8 +34,8 @@
                     <tr>
                         <td class="text-center">{{ $i++ }}</td>
                         <td class="text-center">{{ $row->created_at }}</td>
-                        <td class="text-center">{{ !empty($row->reward_type) ? trans    ("rewardpointsgift::customerrewardpoints.rewardtype.".$row->reward_type) : '-'}}</td>
-                        <td class="text-center">{{ $row->reward_points_earned }}</td>
+                        <td class="text-center">{{ !empty($row->reward_type) ? trans ("rewardpointsgift::customerrewardpoints.rewardtype.".$row->reward_type) : '-'}}</td>
+                        <td class="text-center">{{ $row->reward_points_earned ?? 0}}</td>
                         <td class="text-center">{{ $row->reward_points_claimed ?? 0 }}</td>
                         <td class="text-center">{{ $row->expiry_date ?? "-"}}</td>
                     </tr>    

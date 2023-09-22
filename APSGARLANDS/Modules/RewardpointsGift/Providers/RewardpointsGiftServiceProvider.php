@@ -17,13 +17,6 @@ class RewardpointsGiftServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-
-        $this->app->singleton(\Illuminate\Database\Eloquent\Factory::class, function () {
-            return \Illuminate\Database\Eloquent\Factory::constructWith(
-                \Faker\Generator::class,
-                base_path('modules/RewardpointsGift/Database/factories')
-            );
-        });
         
     }
 }
