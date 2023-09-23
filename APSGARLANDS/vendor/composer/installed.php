@@ -3,7 +3,7 @@
         'name' => 'envaysoft/fleetcart',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => 'a4fb6eef99f481825411ec13f01c30b636f879f8',
+        'reference' => '17502e1ace3171114c6d91b76ef4b1217d379434',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -310,7 +310,7 @@
         'envaysoft/fleetcart' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => 'a4fb6eef99f481825411ec13f01c30b636f879f8',
+            'reference' => '17502e1ace3171114c6d91b76ef4b1217d379434',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
