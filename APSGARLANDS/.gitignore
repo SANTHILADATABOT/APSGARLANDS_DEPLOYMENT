@@ -2,8 +2,7 @@
 .phpintel/
 *.sublime-project
 .DS_Store
-/node_modules
-/vendor
+
 /storage/logs/*
 public/phplog
 .env
