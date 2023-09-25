@@ -170,12 +170,14 @@
 
 
 
-                    <div class='' style='display:flex'>
+                    {{-- <div class='' style='display:flex'>
 
                         @auth
                             <div class="header-contact header">
                                 <a href="{{ route('account.dashboard.index') }}" class="menu-link">
-                                    <div class="icon-wrap">
+                                    <li class="dropdown top-nav-menu pull-right">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+            
                                         @switch(true)
                                             @case(auth()->user()->sso_google == '1' || auth()->user()->sso_fb == '1')
                                                 <img src="{{ auth()->user()->sso_avatar }}" alt="User Profile Image"
@@ -187,12 +189,16 @@
                                                     class="profile-image" width="50px" height="50px">
                                             @break
 
-                                            @default
-                                                <i class="las la-user"></i>
-                                        @endswitch
-                                    </div>
-                                    <span>{{ trans('storefront::layout.account') }}</span>
-                                </a>
+                                            <i class="las la-user"></i>
+                                @endswitch {{ trans('storefront::layout.account') }}
+                            </a>
+                            <ul class="navbar-nav ml-auto">
+                                <li><a href="{{ route('account.profile.update') }}">{{ trans('storefront::layout.my_Profile') }}
+                                    </a></li>
+                                <li><a href="{{ route('logout') }}">{{ trans('storefront::layout.login') }}
+                                    </a></li>
+                            </ul>
+                        </li>
                             </div>
                         @else
                             <div class="header-contact header">
@@ -204,6 +210,29 @@
                                 </a>
                             </div>
                         @endauth
+                    </div> --}}
+                    <div class='' style='display:flex'>
+
+                        @auth
+                    <div class="header-contact header">
+                        <div class="dropdown">
+                            <a href="#" class="menu-link" id="profile-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <!-- Your image here -->
+                                <img src="{{ auth()->user()->sso_avatar ?? auth()->user()->image_url }}" alt="User Profile Image" class="profile-image" width="50px" height="50px">
+                                {{-- {{ trans('storefront::layout.account') }} --}}
+                                {{ auth()->user()->full_name}}
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="profile-dropdown">
+                                @auth
+                                    <a class="dropdown-item" href="{{ route('account.profile.update') }}">{{ trans('storefront::layout.my_Profile') }}</a>
+                                    <a class="dropdown-item" href="{{ route('logout') }}">{{ trans('storefront::layout.logout') }}</a>
+                                @else
+                                    <a class="dropdown-item" href="{{ route('login') }}">{{ trans('storefront::layout.login') }}</a>
+                                @endauth
+                            </div>
+                        </div>
+                    </div>
+                    @endauth
                     </div>
 
                 </div>
