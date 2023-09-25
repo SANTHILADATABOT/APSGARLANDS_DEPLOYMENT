@@ -120,15 +120,15 @@ export default {
         },
 
         "form.billing.city": function (newCity) {
-            if (newCity) {
-                this.addTaxes();
-            }
+            // if (newCity) {
+            //     this.addTaxes();
+            // }
         },
 
         "form.shipping.city": function (newCity) {
-            if (newCity) {
-                this.addTaxes();
-            }
+            // if (newCity) {
+            //     this.addTaxes();
+            // }
         },
 
         "form.billing.zip": function (newZip) {
@@ -138,9 +138,9 @@ export default {
                 this.zipExists(newZip);
             }
            // console.log("billing zip"+ this.form.billing.zip);
-            if (newZip) {
-                this.addTaxes();
-            }
+            // if (newZip) {
+            //     this.addTaxes();
+            // }
         },
 
         "form.shipping.zip": function (newZip) {
@@ -150,24 +150,24 @@ export default {
                 this.zipExists(newZip);
             }
            // console.log("shipping zip"+ this.form.shipping.zip);
-            if (newZip) {
-                this.addTaxes();
-            }
+            // if (newZip) {
+            //     this.addTaxes();
+            // }
         },
         "newzip": function(newZip){
             this.zipExists(newZip);
         },
 
         "form.billing.state": function (newState) {
-            if (newState) {
-                this.addTaxes();
-            }
+            // if (newState) {
+            //     this.addTaxes();
+            // }
         },
 
         "form.shipping.state": function (newState) {
-            if (newState) {
-                this.addTaxes();
-            }
+            // if (newState) {
+            //     this.addTaxes();
+            // }
         },
 
         "form.ship_to_a_different_address": function (newValue) {
@@ -179,7 +179,7 @@ export default {
                 this.resetAddressErrors("shipping");
             }
 
-            this.addTaxes();
+            // this.addTaxes();
         },
 
         "form.terms_and_conditions": function () {
@@ -254,8 +254,14 @@ export default {
                         
                         this.fixedrate.total = formattedNewTotal;
                         // Update the elements in the DOM
-                        document.getElementById('price_flat_rate').innerText = 'MYR 0.00';
-                        document.getElementById('total_flat_rate').innerText = this.fixedrate.total;
+                        const priceFlatRate = document.getElementById('price_flat_rate');
+                        const totalFlatRate = document.getElementById('total_flat_rate');
+                        if(priceFlatRate){
+                            document.getElementById('price_flat_rate').innerText = 'MYR 0.00';
+
+                        }if(totalFlatRate){
+                            document.getElementById('total_flat_rate').innerText = this.fixedrate.total;
+                        }
                         // console.log('Updated total_flat_rate IF CONDITION: ' + this.fixedrate.total);
                         this.updateTotalFlatRate();
                     } else {
@@ -277,8 +283,14 @@ export default {
                         const formattedNewTotal = 'MYR ' + newTotalAmount.toFixed(2);
                         this.fixedrate.price =formattedPrice;
                         this.fixedrate.total=formattedNewTotal ;
-                        document.getElementById('price_flat_rate').innerText = this.fixedrate.price;
-                        document.getElementById('total_flat_rate').innerText = this.fixedrate.total;
+                        const priceFlatRate = document.getElementById('price_flat_rate');
+                        const totalFlatRate = document.getElementById('total_flat_rate');
+                        if(priceFlatRate){
+                            document.getElementById('price_flat_rate').innerText = this.fixedrate.price;
+                        }
+                        if(totalFlatRate){
+                            document.getElementById('total_flat_rate').innerText = this.fixedrate.total;
+                        }
                         // console.log('Updated total_flat_rate FROM ELSE: ' +parseFloat(price)+'---' +parseFloat(this.cart.subTotal.amount)+'----'+ this.fixedrate.total);
                         this.updateTotalFlatRate();
                     }
@@ -358,9 +370,14 @@ export default {
                 this.getFixedRate(0);
                 this.updateTotalFlatRate();
             }
-
-            document.getElementById('price_flat_rate').innerText = this.fixedrate.price;
-            document.getElementById('total_flat_rate').innerText = this.fixedrate.total;
+            const priceFlatRate = document.getElementById('price_flat_rate');
+            const totalFlatRate = document.getElementById('total_flat_rate');
+            if(priceFlatRate){
+                document.getElementById('price_flat_rate').innerText = this.fixedrate.price;
+            }
+            if(totalFlatRate){
+                document.getElementById('total_flat_rate').innerText = this.fixedrate.total;
+            }
            // console.log('test',document.getElementById('total_flat_rate').innerText);
         } else {
             console.log('Invalid response or missing data in the response.');
@@ -506,24 +523,24 @@ export default {
             this.$set(this.form, "shipping_method", shippingMethodName);
         },
 
-        addTaxes() {
-            this.loadingOrderSummary = true;
+        // addTaxes() {
+        //     this.loadingOrderSummary = true;
 
-            $.ajax({
-                method: "POST",
-                url: route("cart.taxes.store"),
-                data: this.form,
-            })
-                .then((cart) => {
-                    store.updateCart(cart);
-                })
-                .catch((xhr) => {
-                    this.$notify(xhr.responseJSON.message);
-                })
-                .always(() => {
-                    this.loadingOrderSummary = false;
-                });
-        },
+        //     $.ajax({
+        //         method: "POST",
+        //         url: route("cart.taxes.store"),
+        //         data: this.form,
+        //     })
+        //         .then((cart) => {
+        //             store.updateCart(cart);
+        //         })
+        //         .catch((xhr) => {
+        //             this.$notify(xhr.responseJSON.message);
+        //         })
+        //         .always(() => {
+        //             this.loadingOrderSummary = false;
+        //         });
+        // },
 
         placeOrder() {
             if (!this.form.terms_and_conditions || this.placingOrder) {

@@ -136,14 +136,14 @@ class Order extends Model
         return $this->belongsTo(Coupon::class)->withTrashed();
     }
 
-    public function taxes()
-    {
-        return $this->belongsToMany(TaxRate::class, 'order_taxes')
-            ->using(OrderTax::class)
-            ->as('order_tax')
-            ->withPivot('amount')
-            ->withTrashed();
-    }
+    // public function taxes()
+    // {
+    //     return $this->belongsToMany(TaxRate::class, 'order_taxes')
+    //         ->using(OrderTax::class)
+    //         ->as('order_tax')
+    //         ->withPivot('amount')
+    //         ->withTrashed();
+    // }
 
     public function transaction()
     {
