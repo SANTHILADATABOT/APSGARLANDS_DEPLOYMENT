@@ -98,7 +98,7 @@ export default {
 
         paymentInstructions() {
             if (this.shouldShowPaymentInstructions) {
-                console.log('instruction',this.gateways[this.form.payment_method].instructions);
+                // console.log('instruction',this.gateways[this.form.payment_method].instructions);
                 return this.gateways[this.form.payment_method].instructions;
             }
         },
@@ -187,7 +187,7 @@ export default {
         },
 
         "form.payment_method": function (newPaymentMethod) {
-            console.log('this.form.payment_method',this.form.payment_method);
+            // console.log('this.form.payment_method',this.form.payment_method);
             if (newPaymentMethod === "paypal") {
                 this.$nextTick(this.renderPayPalButton);
             }
@@ -546,7 +546,7 @@ export default {
             if (!this.form.terms_and_conditions || this.placingOrder) {
                 return;
             }
-           console.log('it s placeorder function',this.form.payment_method)
+        //    console.log('it s placeorder function',this.form.payment_method)
             this.placingOrder = true;
 
             $.ajax({
@@ -559,11 +559,11 @@ export default {
                 },
             })
                 .then((response) => {
-                  console.log('response123',response);
+                //   console.log('response123',response);
                     if (response.redirectUrl) {
                         window.location.href = response.redirectUrl;
                     } else if (this.form.payment_method ==="razerpay") { 
-                        console.log("confirmRazerpayPayment");
+                        //console.log("confirmRazerpayPayment");
                         this.confirmRazerpayPayment(response);
                     } else {
                         this.confirmOrder(
@@ -576,7 +576,7 @@ export default {
                     if (xhr.status === 422) {
                         this.errors.record(xhr.responseJSON.errors);
                     }
-                    console.log('error',this.form.payment_method);
+                   // console.log('error',this.form.payment_method);
                     this.$notify(xhr.responseJSON.message);
 
                     this.placingOrder = false;
@@ -584,7 +584,7 @@ export default {
         },
 
         confirmOrder(orderId, paymentMethod, params = {}) {
-            console.log('it s a confirm order function');
+           // console.log('it s a confirm order function');
             $.ajax({
                 method: "GET",
                 url: route("checkout.complete.store", {
