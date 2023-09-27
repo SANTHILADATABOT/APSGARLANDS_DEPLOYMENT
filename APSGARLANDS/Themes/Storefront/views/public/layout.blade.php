@@ -153,6 +153,39 @@
                         console.error('Error loading testimonials');
                     }
                 });
+
+                $.ajax({
+                    url: '{{ route('galleries.slider') }}',
+                    method: 'GET',
+                    dataType: 'html',
+                    success: function(response) {
+                        $('#galleries_slide_div').html(response);
+                        $('#galleries-list').owlCarousel({
+                            loop: true,
+                            center: true,
+                            items: 5, // Display 5 testimonials at a time
+                            margin: 0,
+                            autoplay: true,
+                            dots: true,
+                            autoplayTimeout: 2000,
+                            smartSpeed: 450,
+                            responsive: {
+                                0: {
+                                    items: 1
+                                },
+                                768: {
+                                    items: 2
+                                },
+                                1170: {
+                                    items: 3
+                                }
+                            }
+                        });
+                    },
+                    error: function() {
+                        console.error('Error loading galleries');
+                    }
+                });
             });
         </script>
     @endif
