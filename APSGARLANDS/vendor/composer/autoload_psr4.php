@@ -118,6 +118,7 @@ return array(
     'Modules\\Menu\\' => array($baseDir . '/Modules/Menu'),
     'Modules\\Media\\' => array($baseDir . '/Modules/Media'),
     'Modules\\Import\\' => array($baseDir . '/Modules/Import'),
+    'Modules\\Galleries\\' => array($baseDir . '/Modules/Galleries'),
     'Modules\\FlashSale\\' => array($baseDir . '/Modules/FlashSale'),
     'Modules\\Fixedrate\\' => array($baseDir . '/Modules/Fixedrate'),
     'Modules\\Currency\\' => array($baseDir . '/Modules/Currency'),
@@ -213,4 +214,5 @@ return array(
     'Astrotomic\\Translatable\\' => array($vendorDir . '/astrotomic/laravel-translatable/src/Translatable'),
     'AlternativeLaravelCache\\' => array($vendorDir . '/swayok/alternative-laravel-cache/AlternativeLaravelCache'),
     'Algolia\\AlgoliaSearch\\' => array($vendorDir . '/algolia/algoliasearch-client-php/src'),
+    'Alaouy\\Youtube\\' => array($vendorDir . '/alaouy/youtube/src'),
 );

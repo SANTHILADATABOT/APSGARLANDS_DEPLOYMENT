@@ -3,13 +3,22 @@
         'name' => 'envaysoft/fleetcart',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => '17502e1ace3171114c6d91b76ef4b1217d379434',
+        'reference' => 'd89de10de7b99bdbb353cfb5afcbecbfc9af2c75',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
         'dev' => true,
     ),
     'versions' => array(
+        'alaouy/youtube' => array(
+            'pretty_version' => 'v2.2.5',
+            'version' => '2.2.5.0',
+            'reference' => '6cd66013b18a958b85f4e71f72fb6fac7dc25c14',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../alaouy/youtube',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
         'algolia/algoliasearch-client-php' => array(
             'pretty_version' => '2.8.0',
             'version' => '2.8.0.0',
@@ -310,7 +319,7 @@
         'envaysoft/fleetcart' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '17502e1ace3171114c6d91b76ef4b1217d379434',
+            'reference' => 'd89de10de7b99bdbb353cfb5afcbecbfc9af2c75',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

@@ -134,7 +134,7 @@
                             margin: 0,
                             autoplay: true,
                             dots: true,
-                            autoplayTimeout: 2000,
+                            autoplayTimeout: 5000,
                             smartSpeed: 450,
                             responsive: {
                                 0: {
@@ -167,7 +167,7 @@
                             margin: 0,
                             autoplay: true,
                             dots: true,
-                            autoplayTimeout: 2000,
+                            autoplayTimeout: 30000,
                             smartSpeed: 450,
                             responsive: {
                                 0: {

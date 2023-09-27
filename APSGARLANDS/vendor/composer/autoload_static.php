@@ -213,6 +213,7 @@ class ComposerStaticInit95bb1f1eaeab06176158b2a344a9d054
             'Modules\\Menu\\' => 13,
             'Modules\\Media\\' => 14,
             'Modules\\Import\\' => 15,
+            'Modules\\Galleries\\' => 18,
             'Modules\\FlashSale\\' => 18,
             'Modules\\Fixedrate\\' => 18,
             'Modules\\Currency\\' => 17,
@@ -341,6 +342,7 @@ class ComposerStaticInit95bb1f1eaeab06176158b2a344a9d054
             'Astrotomic\\Translatable\\' => 24,
             'AlternativeLaravelCache\\' => 24,
             'Algolia\\AlgoliaSearch\\' => 22,
+            'Alaouy\\Youtube\\' => 15,
         ),
     );
 
@@ -794,6 +796,10 @@ class ComposerStaticInit95bb1f1eaeab06176158b2a344a9d054
         array (
             0 => __DIR__ . '/../..' . '/Modules/Import',
         ),
+        'Modules\\Galleries\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/Modules/Galleries',
+        ),
         'Modules\\FlashSale\\' => 
         array (
             0 => __DIR__ . '/../..' . '/Modules/FlashSale',
@@ -1182,6 +1188,10 @@ class ComposerStaticInit95bb1f1eaeab06176158b2a344a9d054
         array (
             0 => __DIR__ . '/..' . '/algolia/algoliasearch-client-php/src',
         ),
+        'Alaouy\\Youtube\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/alaouy/youtube/src',
+        ),
     );
 
     public static $prefixesPsr0 = array (
@@ -1225,6 +1235,10 @@ class ComposerStaticInit95bb1f1eaeab06176158b2a344a9d054
         'AWS\\CRT\\NativeResource' => __DIR__ . '/..' . '/aws/aws-crt-php/src/AWS/CRT/NativeResource.php',
         'AWS\\CRT\\OptionValue' => __DIR__ . '/..' . '/aws/aws-crt-php/src/AWS/CRT/Options.php',
         'AWS\\CRT\\Options' => __DIR__ . '/..' . '/aws/aws-crt-php/src/AWS/CRT/Options.php',
+        'Alaouy\\Youtube\\Facades\\Youtube' => __DIR__ . '/..' . '/alaouy/youtube/src/Facades/Youtube.php',
+        'Alaouy\\Youtube\\Rules\\ValidYoutubeVideo' => __DIR__ . '/..' . '/alaouy/youtube/src/Rules/ValidYoutubeVideo.php',
+        'Alaouy\\Youtube\\Youtube' => __DIR__ . '/..' . '/alaouy/youtube/src/Youtube.php',
+        'Alaouy\\Youtube\\YoutubeServiceProvider' => __DIR__ . '/..' . '/alaouy/youtube/src/YoutubeServiceProvider.php',
         'Algolia\\AlgoliaSearch\\AccountClient' => __DIR__ . '/..' . '/algolia/algoliasearch-client-php/src/AccountClient.php',
         'Algolia\\AlgoliaSearch\\Algolia' => __DIR__ . '/..' . '/algolia/algoliasearch-client-php/src/Algolia.php',
         'Algolia\\AlgoliaSearch\\AnalyticsClient' => __DIR__ . '/..' . '/algolia/algoliasearch-client-php/src/AnalyticsClient.php',
@@ -1972,6 +1986,8 @@ class ComposerStaticInit95bb1f1eaeab06176158b2a344a9d054
         'Aws\\Multipart\\UploadState' => __DIR__ . '/..' . '/aws/aws-sdk-php/src/Multipart/UploadState.php',
         'Aws\\Neptune\\Exception\\NeptuneException' => __DIR__ . '/..' . '/aws/aws-sdk-php/src/Neptune/Exception/NeptuneException.php',
         'Aws\\Neptune\\NeptuneClient' => __DIR__ . '/..' . '/aws/aws-sdk-php/src/Neptune/NeptuneClient.php',
+        'Aws\\Neptunedata\\Exception\\NeptunedataException' => __DIR__ . '/..' . '/aws/aws-sdk-php/src/Neptunedata/Exception/NeptunedataException.php',
+        'Aws\\Neptunedata\\NeptunedataClient' => __DIR__ . '/..' . '/aws/aws-sdk-php/src/Neptunedata/NeptunedataClient.php',
         'Aws\\NetworkFirewall\\Exception\\NetworkFirewallException' => __DIR__ . '/..' . '/aws/aws-sdk-php/src/NetworkFirewall/Exception/NetworkFirewallException.php',
         'Aws\\NetworkFirewall\\NetworkFirewallClient' => __DIR__ . '/..' . '/aws/aws-sdk-php/src/NetworkFirewall/NetworkFirewallClient.php',
         'Aws\\NetworkManager\\Exception\\NetworkManagerException' => __DIR__ . '/..' . '/aws/aws-sdk-php/src/NetworkManager/Exception/NetworkManagerException.php',
@@ -2004,6 +2020,8 @@ class ComposerStaticInit95bb1f1eaeab06176158b2a344a9d054
         'Aws\\PaymentCryptographyData\\PaymentCryptographyDataClient' => __DIR__ . '/..' . '/aws/aws-sdk-php/src/PaymentCryptographyData/PaymentCryptographyDataClient.php',
         'Aws\\PaymentCryptography\\Exception\\PaymentCryptographyException' => __DIR__ . '/..' . '/aws/aws-sdk-php/src/PaymentCryptography/Exception/PaymentCryptographyException.php',
         'Aws\\PaymentCryptography\\PaymentCryptographyClient' => __DIR__ . '/..' . '/aws/aws-sdk-php/src/PaymentCryptography/PaymentCryptographyClient.php',
+        'Aws\\PcaConnectorAd\\Exception\\PcaConnectorAdException' => __DIR__ . '/..' . '/aws/aws-sdk-php/src/PcaConnectorAd/Exception/PcaConnectorAdException.php',
+        'Aws\\PcaConnectorAd\\PcaConnectorAdClient' => __DIR__ . '/..' . '/aws/aws-sdk-php/src/PcaConnectorAd/PcaConnectorAdClient.php',
         'Aws\\PersonalizeEvents\\Exception\\PersonalizeEventsException' => __DIR__ . '/..' . '/aws/aws-sdk-php/src/PersonalizeEvents/Exception/PersonalizeEventsException.php',
         'Aws\\PersonalizeEvents\\PersonalizeEventsClient' => __DIR__ . '/..' . '/aws/aws-sdk-php/src/PersonalizeEvents/PersonalizeEventsClient.php',
         'Aws\\PersonalizeRuntime\\Exception\\PersonalizeRuntimeException' => __DIR__ . '/..' . '/aws/aws-sdk-php/src/PersonalizeRuntime/Exception/PersonalizeRuntimeException.php',
@@ -2616,6 +2634,7 @@ class ComposerStaticInit95bb1f1eaeab06176158b2a344a9d054
         'DebugBar\\Bridge\\SlimCollector' => __DIR__ . '/..' . '/maximebf/debugbar/src/DebugBar/Bridge/SlimCollector.php',
         'DebugBar\\Bridge\\SwiftMailer\\SwiftLogCollector' => __DIR__ . '/..' . '/maximebf/debugbar/src/DebugBar/Bridge/SwiftMailer/SwiftLogCollector.php',
         'DebugBar\\Bridge\\SwiftMailer\\SwiftMailCollector' => __DIR__ . '/..' . '/maximebf/debugbar/src/DebugBar/Bridge/SwiftMailer/SwiftMailCollector.php',
+        'DebugBar\\Bridge\\Symfony\\SymfonyMailCollector' => __DIR__ . '/..' . '/maximebf/debugbar/src/DebugBar/Bridge/Symfony/SymfonyMailCollector.php',
         'DebugBar\\Bridge\\TwigProfileCollector' => __DIR__ . '/..' . '/maximebf/debugbar/src/DebugBar/Bridge/TwigProfileCollector.php',
         'DebugBar\\Bridge\\Twig\\TimeableTwigExtensionProfiler' => __DIR__ . '/..' . '/maximebf/debugbar/src/DebugBar/Bridge/Twig/TimeableTwigExtensionProfiler.php',
         'DebugBar\\Bridge\\Twig\\TraceableTwigEnvironment' => __DIR__ . '/..' . '/maximebf/debugbar/src/DebugBar/Bridge/Twig/TraceableTwigEnvironment.php',
@@ -5584,6 +5603,7 @@ class ComposerStaticInit95bb1f1eaeab06176158b2a344a9d054
         'Laravel\\Sanctum\\Guard' => __DIR__ . '/..' . '/laravel/sanctum/src/Guard.php',
         'Laravel\\Sanctum\\HasApiTokens' => __DIR__ . '/..' . '/laravel/sanctum/src/HasApiTokens.php',
         'Laravel\\Sanctum\\Http\\Controllers\\CsrfCookieController' => __DIR__ . '/..' . '/laravel/sanctum/src/Http/Controllers/CsrfCookieController.php',
+        'Laravel\\Sanctum\\Http\\Middleware\\AuthenticateSession' => __DIR__ . '/..' . '/laravel/sanctum/src/Http/Middleware/AuthenticateSession.php',
         'Laravel\\Sanctum\\Http\\Middleware\\CheckAbilities' => __DIR__ . '/..' . '/laravel/sanctum/src/Http/Middleware/CheckAbilities.php',
         'Laravel\\Sanctum\\Http\\Middleware\\CheckForAnyAbility' => __DIR__ . '/..' . '/laravel/sanctum/src/Http/Middleware/CheckForAnyAbility.php',
         'Laravel\\Sanctum\\Http\\Middleware\\CheckForAnyScope' => __DIR__ . '/..' . '/laravel/sanctum/src/Http/Middleware/CheckForAnyScope.php',
@@ -5654,6 +5674,7 @@ class ComposerStaticInit95bb1f1eaeab06176158b2a344a9d054
         'Laravel\\Socialite\\Two\\GitlabProvider' => __DIR__ . '/..' . '/laravel/socialite/src/Two/GitlabProvider.php',
         'Laravel\\Socialite\\Two\\GoogleProvider' => __DIR__ . '/..' . '/laravel/socialite/src/Two/GoogleProvider.php',
         'Laravel\\Socialite\\Two\\InvalidStateException' => __DIR__ . '/..' . '/laravel/socialite/src/Two/InvalidStateException.php',
+        'Laravel\\Socialite\\Two\\LinkedInOpenIdProvider' => __DIR__ . '/..' . '/laravel/socialite/src/Two/LinkedInOpenIdProvider.php',
         'Laravel\\Socialite\\Two\\LinkedInProvider' => __DIR__ . '/..' . '/laravel/socialite/src/Two/LinkedInProvider.php',
         'Laravel\\Socialite\\Two\\ProviderInterface' => __DIR__ . '/..' . '/laravel/socialite/src/Two/ProviderInterface.php',
         'Laravel\\Socialite\\Two\\SlackProvider' => __DIR__ . '/..' . '/laravel/socialite/src/Two/SlackProvider.php',
@@ -6631,6 +6652,15 @@ class ComposerStaticInit95bb1f1eaeab06176158b2a344a9d054
         'Modules\\FlashSale\\Http\\Requests\\SaveFlashSaleRequest' => __DIR__ . '/../..' . '/Modules/FlashSale/Http/Requests/SaveFlashSaleRequest.php',
         'Modules\\FlashSale\\Providers\\FlashSaleServiceProvider' => __DIR__ . '/../..' . '/Modules/FlashSale/Providers/FlashSaleServiceProvider.php',
         'Modules\\FlashSale\\Sidebar\\SidebarExtender' => __DIR__ . '/../..' . '/Modules/FlashSale/Sidebar/SidebarExtender.php',
+        'Modules\\Galleries\\Admin\\GalleriesTable' => __DIR__ . '/../..' . '/Modules/Galleries/Admin/GalleriesTable.php',
+        'Modules\\Galleries\\Database\\Seeders\\GalleriesDatabaseSeeder' => __DIR__ . '/../..' . '/Modules/Galleries/Database/Seeders/GalleriesDatabaseSeeder.php',
+        'Modules\\Galleries\\Entities\\Galleries' => __DIR__ . '/../..' . '/Modules/Galleries/Entities/Galleries.php',
+        'Modules\\Galleries\\Http\\Controllers\\Admin\\GalleriesController' => __DIR__ . '/../..' . '/Modules/Galleries/Http/Controllers/Admin/GalleriesController.php',
+        'Modules\\Galleries\\Http\\Controllers\\GalleriesController' => __DIR__ . '/../..' . '/Modules/Galleries/Http/Controllers/GalleriesController.php',
+        'Modules\\Galleries\\Http\\Requests\\UploadGalleriesRequest' => __DIR__ . '/../..' . '/Modules/Galleries/Http/Requests/UploadGalleriesRequest.php',
+        'Modules\\Galleries\\IconResolver' => __DIR__ . '/../..' . '/Modules/Galleries/IconResolver.php',
+        'Modules\\Galleries\\Providers\\GalleriesServiceProvider' => __DIR__ . '/../..' . '/Modules/Galleries/Providers/GalleriesServiceProvider.php',
+        'Modules\\Galleries\\Sidebar\\SidebarExtender' => __DIR__ . '/../..' . '/Modules/Galleries/Sidebar/SidebarExtender.php',
         'Modules\\Import\\Http\\Controllers\\Admin\\DownloadCsvController' => __DIR__ . '/../..' . '/Modules/Import/Http/Controllers/Admin/DownloadCsvController.php',
         'Modules\\Import\\Http\\Controllers\\Admin\\ImporterController' => __DIR__ . '/../..' . '/Modules/Import/Http/Controllers/Admin/ImporterController.php',
         'Modules\\Import\\Http\\Requests\\StoreImporterRequest' => __DIR__ . '/../..' . '/Modules/Import/Http/Requests/StoreImporterRequest.php',
@@ -8432,6 +8462,7 @@ class ComposerStaticInit95bb1f1eaeab06176158b2a344a9d054
         'Psy\\CodeCleaner\\ValidFunctionNamePass' => __DIR__ . '/..' . '/psy/psysh/src/CodeCleaner/ValidFunctionNamePass.php',
         'Psy\\Command\\BufferCommand' => __DIR__ . '/..' . '/psy/psysh/src/Command/BufferCommand.php',
         'Psy\\Command\\ClearCommand' => __DIR__ . '/..' . '/psy/psysh/src/Command/ClearCommand.php',
+        'Psy\\Command\\CodeArgumentParser' => __DIR__ . '/..' . '/psy/psysh/src/Command/CodeArgumentParser.php',
         'Psy\\Command\\Command' => __DIR__ . '/..' . '/psy/psysh/src/Command/Command.php',
         'Psy\\Command\\DocCommand' => __DIR__ . '/..' . '/psy/psysh/src/Command/DocCommand.php',
         'Psy\\Command\\DumpCommand' => __DIR__ . '/..' . '/psy/psysh/src/Command/DumpCommand.php',
@@ -8789,6 +8820,7 @@ class ComposerStaticInit95bb1f1eaeab06176158b2a344a9d054
         'Razorpay\\Tests\\CoverageTest' => __DIR__ . '/..' . '/razorpay/razorpay/tests/CoverageTest.php',
         'Razorpay\\Tests\\CustomerTest' => __DIR__ . '/..' . '/razorpay/razorpay/tests/CustomerTest.php',
         'Razorpay\\Tests\\EmandateTest' => __DIR__ . '/..' . '/razorpay/razorpay/tests/EmandateTest.php',
+        'Razorpay\\Tests\\ExceptionTest' => __DIR__ . '/..' . '/razorpay/razorpay/tests/ExceptionTest.php',
         'Razorpay\\Tests\\FundTest' => __DIR__ . '/..' . '/razorpay/razorpay/tests/FundTest.php',
         'Razorpay\\Tests\\InvoiceTest' => __DIR__ . '/..' . '/razorpay/razorpay/tests/InvoiceTest.php',
         'Razorpay\\Tests\\ItemTest' => __DIR__ . '/..' . '/razorpay/razorpay/tests/ItemTest.php',
