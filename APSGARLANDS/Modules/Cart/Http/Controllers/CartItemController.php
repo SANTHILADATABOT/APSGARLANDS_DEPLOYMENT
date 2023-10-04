@@ -105,4 +105,11 @@ class CartItemController extends Controller
 
         return Cart::instance();
     }
+
+    /*Get and Check */
+    public function checkemty()
+    {
+		return Cart::instance();
+		
+    }
 }
