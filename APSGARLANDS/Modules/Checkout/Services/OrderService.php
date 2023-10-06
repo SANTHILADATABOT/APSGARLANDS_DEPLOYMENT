@@ -152,6 +152,7 @@ class OrderService
         'locale' => locale(),
         'status' => Order::PENDING_PAYMENT,
         'note' => $request->order_note,
+        'delivery_date'=>$request->delivery_date,
     ]);
 }
 
