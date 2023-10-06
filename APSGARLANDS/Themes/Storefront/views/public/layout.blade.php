@@ -136,7 +136,7 @@
                             dots: true,
                             autoplayTimeout: 5000,
                             smartSpeed: 450,
-                            navigationText: ["Prev","Next"],
+                            navigationText: ["Prev","Next"],//not tested
                             responsive: {
                                 0: {
                                     items: 1

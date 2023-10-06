@@ -6,6 +6,7 @@ return [
     'add_new_address' => '+ ADD NEW ADDRESS',
     'billing_details' => 'Billing Details',
     'delivery_details' => 'Delivery Details',
+    'delivery_date' => 'Delivery Date',
     'you_must_select_an_address' => 'You must select an address.',
     'please_select' => 'Please Select',
     'create_an_account_by_entering_the_information_below' => 'Create an account by entering the information below. If you are a returning customer please login from the top of the page.',
@@ -17,4 +18,5 @@ return [
     'i_agree_to_the' => 'I agree to the',
     'terms_&_conditions' => 'Terms & Conditions',
     'place_order' => 'PLACE ORDER',
+    'recurring_order' => 'Recurring Order',
 ];

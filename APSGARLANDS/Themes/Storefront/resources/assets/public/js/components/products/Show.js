@@ -33,7 +33,7 @@ export default {
 
     computed: {
         totalReviews() {
-            if (! this.reviews.total) {
+            if (!this.reviews.total) {
                 return this.reviewCount;
             }
 
@@ -95,14 +95,16 @@ export default {
         updatePrice() {
             this.$nextTick(() => {
                 $.ajax({
-                    method: 'POST',
-                    url: route('products.price.show', { id: this.product.id }),
+                    method: "POST",
+                    url: route("products.price.show", { id: this.product.id }),
                     data: { options: this.cartItemForm.options },
-                }).then((price) => {
-                    this.price = price;
-                }).catch((xhr) => {
-                    this.$notify(xhr.responseJSON.message);
-                });
+                })
+                    .then((price) => {
+                        this.price = price;
+                    })
+                    .catch((xhr) => {
+                        this.$notify(xhr.responseJSON.message);
+                    });
             });
         },
 
@@ -124,7 +126,7 @@ export default {
         },
 
         customRadioTypeOptionValueIsActive(optionId, valueId) {
-            if (! this.cartItemForm.options.hasOwnProperty(optionId)) {
+            if (!this.cartItemForm.options.hasOwnProperty(optionId)) {
                 return false;
             }
 
@@ -144,7 +146,7 @@ export default {
         },
 
         customCheckboxTypeOptionValueIsActive(optionId, valueId) {
-            if (! this.cartItemForm.options.hasOwnProperty(optionId)) {
+            if (!this.cartItemForm.options.hasOwnProperty(optionId)) {
                 this.$set(this.cartItemForm.options, optionId, []);
 
                 return false;
@@ -212,22 +214,47 @@ export default {
 
         addToCart() {
             this.addingToCart = true;
+            var pre_order_days = document.getElementById("pre_order_days").value;
 
+            var item_qty = "";
             $.ajax({
-                method: 'POST',
-                url: route('cart.items.store', this.cartItemForm),
+                method: "POST",
+                url: route("cart.items.checkemty"),
             }).then((cart) => {
-                store.updateCart(cart);
-
-                $('.header-cart').trigger('click');
-            }).catch((xhr) => {
-                if (xhr.status === 422) {
-                    this.errors.record(xhr.responseJSON.errors);
+                var arr = Object.keys(cart).map(function (key) {
+                    return cart[key];
+                });
+                item_qty = arr[1];
+                if (item_qty != 0) {
+                    var header_prepare_days = $("#header-prepare-days").val();
                 } else {
-                    this.$notify(xhr.responseJSON.message);
+                    var header_prepare_days = pre_order_days;
                 }
-            }).always(() => {
-                this.addingToCart = false;
+
+                if (pre_order_days != header_prepare_days) {
+                    this.$notify("Pre-Order Product Day Not Match");
+                    $(".header-cart").trigger("click");
+                    this.addingToCart = false;
+                } else {
+                    $.ajax({
+                        method: "POST",
+                        url: route("cart.items.store", this.cartItemForm),
+                    })
+                        .then((cart) => {
+                            store.updateCart(cart);
+                            $(".header-cart").trigger("click");
+                        })
+                        .catch((xhr) => {
+                            if (xhr.status === 422) {
+                                this.errors.record(xhr.responseJSON.errors);
+                            } else {
+                                this.$notify(xhr.responseJSON.message);
+                            }
+                        })
+                        .always(() => {
+                            this.addingToCart = false;
+                        });
+                }
             });
         },
     },

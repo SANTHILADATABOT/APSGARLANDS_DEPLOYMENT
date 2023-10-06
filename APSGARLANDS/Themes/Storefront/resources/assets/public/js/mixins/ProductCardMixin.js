@@ -52,6 +52,27 @@ export default {
 
         addToCart() {
             this.addingToCart = true;
+            var pre_order_days = this.product.prepare_days;			
+            var item_qty = "";
+             $.ajax({
+                   method: 'POST',
+                   url: route('cart.items.checkemty'),
+               }).then((cart) => {
+                   var arr = Object.keys(cart).map(function (key) { return cart[key]; });
+                   item_qty = arr[1];
+                if(item_qty!=0){
+                    var header_prepare_days = $('#header-prepare-days').val();
+                }
+                else{
+                    var header_prepare_days = pre_order_days;     
+                } 
+               
+               if((pre_order_days!=header_prepare_days) ){
+                   this.$notify("Pre-Order Product Day Not Match");
+                   $('.header-cart').trigger('click');
+                   this.addingToCart = false;
+               }
+               else{
 
             $.ajax({
                 method: "POST",
@@ -73,6 +94,10 @@ export default {
                 .always(() => {
                     this.addingToCart = false;
                 });
+            }
+                
+        })
+        
         },
     },
 };
