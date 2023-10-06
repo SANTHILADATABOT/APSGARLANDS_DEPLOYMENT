@@ -33,6 +33,7 @@ export default {
                 newShippingAddress: false,
                 ship_to_a_different_address: false,
                 terms_and_conditions: false,
+                isCheckedRecurringOrder: false,
             },
             fixedrate: {
                 price: 0,
@@ -55,6 +56,9 @@ export default {
             stripeError: null,
             authorizeNetToken: null,
             termsModalContent: "",   //For Terms and Conditions Modal popup
+            preparingDays: null,
+			selectedDeliveryDate: null,
+			minDate: null,
         };
     },
 
@@ -199,6 +203,36 @@ export default {
     },
 
     created() {
+        for (const [key, value] of Object.entries(this.cart?.items)) {
+			this.preparingDays = value?.product?.prepare_days;
+
+			if (this.preparingDays) {
+				break; // Exit the loop when a truthy preparingDays value is found.
+			}
+		}
+       
+		const currentDate = new Date();
+		var h = new Date(currentDate);
+		let hour = h.getHours();
+		//console.log("hour : "+hour);
+        if(this.preparingDays=='' || this.preparingDays==null)
+        {
+            this.preparingDays=0;
+        }
+
+		if(hour>=13){
+			this.preparingDays = 1;
+		}
+        else{
+            this.preparingDays = parseInt( this.preparingDays );
+        }
+		
+		currentDate.setDate(currentDate.getDate() + parseInt(this.preparingDays));
+		const formattedDate = currentDate.toISOString().split('T')[0];		
+		
+		this.minDate = formattedDate;		
+		this.selectedDeliveryDate = formattedDate;
+
         if (this.defaultAddress.address_id) {
             this.form.billingAddressId = this.defaultAddress.address_id;
             this.form.shippingAddressId = this.defaultAddress.address_id;
@@ -556,6 +590,7 @@ export default {
                     ...this.form,
                     ship_to_a_different_address:
                         +this.form.ship_to_a_different_address,
+                        delivery_date:this.selectedDeliveryDate,
                 },
             })
                 .then((response) => {

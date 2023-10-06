@@ -1,5 +1,6 @@
 <template>
     <div class="sidebar-cart-item">
+        <input type="hidden" id="header-prepare-days" v-model="cartItem.product.prepare_days" />
         <a :href="productUrl(cartItem.product)" class="product-image">
             <img
                 :src="baseImage(cartItem.product)"

@@ -13,3 +13,5 @@ Route::post('cart/clear', 'CartClearController@store')->name('cart.clear.store')
 Route::post('cart/shipping-method', 'CartShippingMethodController@store')->name('cart.shipping_method.store');
 
 Route::get('cart/cross-sell-products', 'CartCrossSellProductsController@index')->name('cart.cross_sell_products.index');
+
+Route::post('cart/items1', 'CartItemController@checkemty')->name('cart.items.checkemty');
