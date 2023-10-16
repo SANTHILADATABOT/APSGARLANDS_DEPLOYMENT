@@ -9,5 +9,4 @@ return [
     'processing' => 'Processing',
     'refunded' => 'Refunded',
     'payment_failed' => 'Payment Failed',
-    
 ];
