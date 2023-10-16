@@ -32,7 +32,6 @@ class Order extends Model
     const PROCESSING = 'processing';
     const REFUNDED = 'refunded';
     const PAYMENT_FAILED ='payment_failed';
-
     /**
      * The attributes that aren't mass assignable.
      *
