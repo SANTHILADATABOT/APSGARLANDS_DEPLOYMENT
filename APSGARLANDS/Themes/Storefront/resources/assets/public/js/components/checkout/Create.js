@@ -27,14 +27,18 @@ export default {
                 shipping: {
                     zip: '' 
                 },
+                pickupstore:[],
                 billingAddressId: null,
                 shippingAddressId: null,
+                localpickupAddressId:null,
                 newBillingAddress: false,
                 newShippingAddress: false,
                 ship_to_a_different_address: false,
                 terms_and_conditions: false,
                 isCheckedRecurringOrder: false,
             },
+            pickupstore: [], // Initialize an empty array to store the response data
+            selectedLocalpickupAddressId: null, // Initialize a variable to store the selected local pickup address
             fixedrate: {
                 price: 0,
                 total:0,
@@ -61,7 +65,10 @@ export default {
 			minDate: null,
         };
     },
-
+    mounted() {
+        // Call the function when the component is mounted
+        this.getLocalpickupAddress();
+      },
     computed: {
         shouldDisableCheckbox() {
             // Check if the conditions for disabling the checkbox are met
@@ -109,6 +116,9 @@ export default {
     },
 
     watch: {
+        selectedLocalpickupAddressId(newVal) {
+            console.log('Selected address ID:', newVal);
+          },
         shouldDisableCheckbox(newVal) {
             if (newVal && this.form.terms_and_conditions) {
               // If the checkbox was checked and now becomes disabled, uncheck it
@@ -117,6 +127,7 @@ export default {
           },
         "form.billingAddressId": function () {
             this.mergeSavedBillingAddress();
+            
         },
 
         "form.shippingAddressId": function () {
@@ -249,9 +260,11 @@ export default {
             if (store.state.cart.shippingMethodName) {
                 this.changeShippingMethod(store.state.cart.shippingMethodName);
                 this.updateTotalFlatRate();
+                this.getLocalpickupAddress();
             } else {
                 this.updateShippingMethod(this.firstShippingMethod);
                 this.updateTotalFlatRate();
+                this.getLocalpickupAddress();
             }
 
             if (window.Stripe) {
@@ -436,6 +449,26 @@ export default {
         }
     });
     },
+    getLocalpickupAddress() {
+        console.log('entered');
+        // Make an AJAX request to retrieve address details
+        $.ajax({
+          method: "GET",
+          url: route("admin.pickupstores.getLocalPickupAddress"),
+          data: {},
+        })
+        .then(response => {
+          console.log('response', response);
+          this.pickupstore = response; // Set the 'pickupstore' data with the response
+          console.log('this.pickupstore', this.pickupstore);
+        })
+        .catch(error => {
+          console.error(error);
+        });
+      },
+    
+    
+    
   addNewBillingAddress() {
             this.resetAddressErrors("billing");
 
@@ -580,7 +613,7 @@ export default {
             if (!this.form.terms_and_conditions || this.placingOrder) {
                 return;
             }
-        //    console.log('it s placeorder function',this.form.payment_method)
+            console.log("this.selectedLocalpickupAddressId",this.pickupstore);
             this.placingOrder = true;
 
             $.ajax({
@@ -601,10 +634,11 @@ export default {
                         //console.log("confirmRazerpayPayment");
                         this.confirmRazerpayPayment(response);
                     } else {
-                        this.confirmOrder(
-                            response.orderId,
-                            this.form.payment_method
-                        );
+                        // this.confirmOrder(
+                        //     response.orderId,
+                        //     this.form.payment_method
+                        // );
+                     // console.log("this.selectedLocalpickupAddressId".this.selectedLocalpickupAddressId);  
                     }
                 })
                 .catch((xhr) => {
