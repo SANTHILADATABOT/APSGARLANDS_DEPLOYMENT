@@ -59,7 +59,7 @@
 
         mounted() {
             $(this.$el).find('.daily-deals-countdown').countdown({
-                until: new Date(this.product.pivot.end_date),
+                until: new Date(this.product.pivot?.end_date),
                 format: 'DHMS',
                 labels: [
                     this.$trans('storefront::product_card.years'),
