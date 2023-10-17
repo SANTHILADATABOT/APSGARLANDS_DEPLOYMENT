@@ -13,5 +13,5 @@ Route::get('storefront/vertical-products/{columnNumber}', 'VerticalProductContro
 
 Route::delete('storefront/cookie-bar', 'CookieBarController@destroy')->name('storefront.cookie_bar.destroy');
 
-Route::get('/CustomizeProduct', 'CustomizeProductController@viewCustomProduct')->name('storefront.flash_sale_products.index');
+Route::get('/CustomizeProduct', 'CustomizeProductController@viewCustomProduct')->name('storefront.customizeproduct.index');
  
