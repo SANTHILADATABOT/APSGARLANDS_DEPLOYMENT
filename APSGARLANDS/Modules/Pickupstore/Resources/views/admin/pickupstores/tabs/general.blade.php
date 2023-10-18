@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-md-8">
         <div class="box-content clearfix">
-            {{ Form::text('name', trans('pickupstore::attributes.name'), $errors, $pickupstore, ['required' => true]) }}
+            {{ Form::text('first_name', trans('pickupstore::attributes.first_name'), $errors, $pickupstore, ['required' => true]) }}
             {{ Form::text('tagline', trans('pickupstore::attributes.tagline'), $errors, $pickupstore) }}
             {{ Form::email('email', trans('pickupstore::attributes.email'), $errors, $pickupstore , ['required' => true] ) }}
 
@@ -12,14 +12,14 @@
             {{ Form::text('address_1', trans('pickupstore::attributes.address_1'), $errors, $pickupstore) }}
             {{ Form::text('address_2', trans('pickupstore::attributes.address_2'), $errors, $pickupstore) }}
             {{ Form::text('city', trans('pickupstore::attributes.city'), $errors, $pickupstore, ['required' => true]) }}
-            {{ Form::select('store_country', trans('pickupstore::attributes.store_country'), $errors,  $countries, $pickupstore, ['required' => true]) }}
+            {{ Form::select('country', trans('pickupstore::attributes.country'), $errors,  $countries, $pickupstore, ['required' => true]) }}
 
-            <div class="store-state input">
-                {{ Form::text('store_state', trans('setting::attributes.store_state'), $errors, $pickupstore, ['required' => true]) }}
+            <div class="state input">
+                {{ Form::text('state', trans('pickupstore::attributes.state'), $errors, $pickupstore, ['required' => true]) }}
             </div>
 
-            <div class="store-state select hide">
-                {{ Form::select('store_state', trans('setting::attributes.store_state'), $errors, [], $pickupstore, ['required' => true]) }}
+            <div class="state select hide">
+                {{ Form::select('state', trans('pickupstore::attributes.state'), $errors, [], $pickupstore, ['required' => true]) }}
             </div>
 
             {{ Form::number('zip', trans('pickupstore::attributes.zip'), $errors, $pickupstore, ['required' => true]) }}
@@ -36,11 +36,11 @@
 </div>
 <script>
     // Get a reference to the country select element
-    const countrySelect = document.getElementById("store_country");
+    const countrySelect = document.getElementById("country");
 
     // Get references to the state divs
-    const stateInputDiv = document.querySelector(".store-state.input");
-    const stateSelectDiv = document.querySelector(".store-state.select");
+    const stateInputDiv = document.querySelector(".state.input");
+    const stateSelectDiv = document.querySelector(".state.select");
 
     // Get references to the state input and select elements
     const stateInput = stateInputDiv.querySelector("input");
@@ -89,7 +89,7 @@
     countrySelect.dispatchEvent(new Event("change"));
 
     // // Get the select element by its ID
-    // const select = document.getElementById('store_country');
+    // const select = document.getElementById('country');
 
     // // Set 'Malaysia' as the default selected option
     // select.value = 'MY';

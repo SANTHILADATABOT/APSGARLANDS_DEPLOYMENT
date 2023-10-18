@@ -24,7 +24,7 @@ class Pickupstore extends Model
      *
      * @var array
      */
-    protected $fillable = ['name','tagline','email', 'phone', 'address_1', 'address_2', 'city', 'store_state','store_country', 'zip', 'is_active'];
+    protected $fillable = ['first_name','tagline','email', 'phone', 'address_1', 'address_2', 'city', 'state','country', 'zip', 'is_active'];
     /** 
      * The attributes that should be cast to native types.
      *

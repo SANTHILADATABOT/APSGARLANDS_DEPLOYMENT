@@ -62,8 +62,19 @@ export default {
         };
     },
     mounted() {
+        // if (this.pickupstore.length > 0) {
+        //     this.selectedLocalpickupAddressId = this.pickupstore[0].id;
+        //   }
         // Call the function when the component is mounted
+        console.log("test123",this.countries);
         this.getLocalpickupAddress();
+        if (this.form.shipping_method !== 'flat_rate' && this.pickupstore.length > 0) {
+            // Check if pickupstore is not empty and shipping method is not 'flat_rate'
+            this.selectedLocalpickupAddressId = this.pickupstore[0].id;
+            
+            // Find and store the details of the selected address
+            this.selectedAddressDetails = this.pickupstore[0];
+          }
       },
     computed: {
         shouldDisableCheckbox() {
@@ -112,8 +123,28 @@ export default {
     },
 
     watch: {
-        selectedLocalpickupAddressId(newVal) {
+        // selectedLocalpickupAddressId(newVal) {
+        //     console.log('Selected address ID:', newVal);
+        //   },
+        pickupstore: {
+            handler(newVal) {
+              if (newVal.length > 0 && this.selectedLocalpickupAddressId === null) {
+                // Set the default ID and address details
+                this.selectedLocalpickupAddressId = newVal[0].id;
+              }
+            },
+            deep: true, // Watch for nested changes within pickupstore
+          },
+          selectedLocalpickupAddressId(newVal) {
             console.log('Selected address ID:', newVal);
+            // Find the selected address in the pickupstore array
+            const selectedAddress = this.pickupstore.find(address => address.id === newVal);
+            console.log("selectedAddress",selectedAddress);
+            if (selectedAddress) {
+              // Store the selected address details
+              this.selectedAddressDetails = selectedAddress;
+            console.log("this.selectedAddressDetails",this.selectedAddressDetails);  
+            }
           },
         shouldDisableCheckbox(newVal) {
             if (newVal && this.form.terms_and_conditions) {
@@ -210,6 +241,11 @@ export default {
     },
 
     created() {
+        // if (this.pickupstore.length > 0) {
+        //     this.selectedLocalpickupAddressId = this.pickupstore[0].id;
+        //   }
+        
+          
         this.getLocalpickupAddress();
 
         if (this.defaultAddress.address_id) {
@@ -581,7 +617,7 @@ export default {
             if (!this.form.terms_and_conditions || this.placingOrder) {
                 return;
             }
-            console.log("this.selectedLocalpickupAddressId",this.pickupstore);
+            console.log("this.selectedLocalpickupAddressId",this.selectedAddressDetails);
             this.placingOrder = true;
 
             $.ajax({
@@ -589,6 +625,8 @@ export default {
                 url: route("checkout.create"),
                 data: {
                     ...this.form,
+                    selectedPickupstoreDetails:
+                    this.selectedAddressDetails,
                     ship_to_a_different_address:
                         +this.form.ship_to_a_different_address,
                 },
@@ -605,7 +643,7 @@ export default {
                         //     response.orderId,
                         //     this.form.payment_method
                         // );
-                     // console.log("this.selectedLocalpickupAddressId".this.selectedLocalpickupAddressId);  
+                      
                     }
                 })
                 .catch((xhr) => {

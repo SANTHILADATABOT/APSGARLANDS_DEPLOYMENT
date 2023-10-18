@@ -79,7 +79,7 @@ class CheckoutController extends Controller
         if (auth()->guest() && $request->create_an_account) {
             $customerService->register($request)->login();
         }
-
+//dd($request);
         $order = $orderService->create($request);
 
         $gateway = Gateway::get($request->payment_method);
