@@ -61,14 +61,14 @@ APSGARLANDS/public/themes/storefront/public/css/app.rtl.css
 APSGARLANDS/public/themes/storefront/public/js/app.js
 APSGARLANDS/storage/logs/laravel.log
 
-APSGARLANDS/Modules/Admin/node_modules/
-APSGARLANDS/Modules/Category/node_modules/
-APSGARLANDS/Modules/Media/node_modules/
-APSGARLANDS/Modules/Menu/node_modules/
-APSGARLANDS/Modules/Translation/node_modules/
-APSGARLANDS/Themes/Storefront/node_modules/
+# APSGARLANDS/Modules/Admin/node_modules/
+# APSGARLANDS/Modules/Category/node_modules/
+# APSGARLANDS/Modules/Media/node_modules/
+# APSGARLANDS/Modules/Menu/node_modules/
+# APSGARLANDS/Modules/Translation/node_modules/
+# APSGARLANDS/Themes/Storefront/node_modules/
 APSGARLANDS/mix-manifest.json
 APSGARLANDS/storage/logs/
 # APSGARLANDS/vendor/
 # APSGARLANDS/node_modules/
-
+ APSGARLANDS/node_modules/.cache/
