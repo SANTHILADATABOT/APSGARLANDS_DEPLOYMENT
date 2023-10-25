@@ -1,5 +1,3 @@
-{{-- <?php echo "this is pickupstore file";?>  --}}
-
 <div v-if="form.shipping_method !== 'flat_rate'">
   <h4 class="section-title">{{ trans('storefront::checkout.pickup_store_details') }}</h4>
   <div id="getLocalpickupAddress">

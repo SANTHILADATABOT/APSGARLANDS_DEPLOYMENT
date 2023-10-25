@@ -634,11 +634,11 @@ export default {
                         //console.log("confirmRazerpayPayment");
                         this.confirmRazerpayPayment(response);
                     } else {
-                        // this.confirmOrder(
-                        //     response.orderId,
-                        //     this.form.payment_method
-                        // );
-                     // console.log("this.selectedLocalpickupAddressId".this.selectedLocalpickupAddressId);  
+                        this.confirmOrder(
+                            response.orderId,
+                            this.form.payment_method
+                        );
+                     console.log("this.selectedLocalpickupAddressId".this.selectedLocalpickupAddressId);  
                     }
                 })
                 .catch((xhr) => {
