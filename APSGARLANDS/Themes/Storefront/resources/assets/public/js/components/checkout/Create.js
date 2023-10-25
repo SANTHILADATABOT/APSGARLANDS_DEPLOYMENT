@@ -27,14 +27,18 @@ export default {
                 shipping: {
                     zip: '' 
                 },
+                pickupstore:[],
                 billingAddressId: null,
                 shippingAddressId: null,
+                localpickupAddressId:null,
                 newBillingAddress: false,
                 newShippingAddress: false,
                 ship_to_a_different_address: false,
                 terms_and_conditions: false,
                 isCheckedRecurringOrder: false,
             },
+            pickupstore: [], // Initialize an empty array to store the response data
+            selectedLocalpickupAddressId: null, // Initialize a variable to store the selected local pickup address
             fixedrate: {
                 price: 0,
                 total:0,
@@ -61,8 +65,42 @@ export default {
 			minDate: null,
         };
     },
-
+    mounted() {
+        // if (this.pickupstore.length > 0) {
+        //     this.selectedLocalpickupAddressId = this.pickupstore[0].id;
+        //   }
+        // Call the function when the component is mounted
+       // console.log("test123",this.countries);
+        this.getLocalpickupAddress();
+        if (this.form.shipping_method !== 'flat_rate' && this.pickupstore.length > 0) {
+            // Check if pickupstore is not empty and shipping method is not 'flat_rate'
+            this.selectedLocalpickupAddressId = this.pickupstore[0].id;
+            
+            // Find and store the details of the selected address
+            this.selectedAddressDetails = this.pickupstore[0];
+          }
+      },
     computed: {
+        stateCodeToNameMapping() {
+            return {
+              'JHR' : 'Johor',
+              'KDH' : 'Kedah',
+              'KTN' : 'Kelantan',
+              'LBN' : 'Labuan',
+              'MLK' : 'Malacca (Melaka)',
+              'NSN' : 'Negeri Sembilan',
+              'PHG' : 'Pahang',
+              'PNG' : 'Penang (Pulau Pinang)',
+              'PRK' : 'Perak',
+              'PLS' : 'Perlis',
+              'SBH' : 'Sabah',
+              'SWK' : 'Sarawak',
+              'SGR' : 'Selangor',
+              'TRG' : 'Terengganu',
+              'PJY' : 'Putrajaya',
+              'KUL' : 'Kuala Lumpur',
+            };
+          },
         shouldDisableCheckbox() {
             // Check if the conditions for disabling the checkbox are met
             return (
@@ -109,6 +147,35 @@ export default {
     },
 
     watch: {
+        // selectedLocalpickupAddressId(newVal) {
+        //     console.log('Selected address ID:', newVal);
+        //   },
+        pickupstore: {
+            handler(newVal) {
+              if (newVal.length > 0 && this.selectedLocalpickupAddressId === null) {
+                // Set the default ID and address details
+                this.selectedLocalpickupAddressId = newVal[0].id;
+              }
+            },
+            deep: true, // Watch for nested changes within pickupstore
+          },
+          selectedLocalpickupAddressId(newVal) {
+            // console.log("test456", this.form.billing.state)
+            // console.log('Selected address ID:', newVal);
+            // Find the selected address in the pickupstore array
+            const selectedAddress = this.pickupstore.find(address => address.id === newVal);
+            //console.log("selectedAddress",selectedAddress);
+            if (selectedAddress) {
+               // this.stateName(this.selectedAddressDetails.state);
+               
+              // Store the selected address details
+              this.selectedAddressDetails = selectedAddress;
+            // console.log("this.selectedAddressDetails",this.selectedAddressDetails);  
+            // console.log("this.selectedAddressDetails.state",this.selectedAddressDetails.country);
+            
+           // this.stateName(this.selectedAddressDetails.country);
+            }
+          },
         shouldDisableCheckbox(newVal) {
             if (newVal && this.form.terms_and_conditions) {
               // If the checkbox was checked and now becomes disabled, uncheck it
@@ -117,6 +184,7 @@ export default {
           },
         "form.billingAddressId": function () {
             this.mergeSavedBillingAddress();
+            
         },
 
         "form.shippingAddressId": function () {
@@ -203,35 +271,8 @@ export default {
     },
 
     created() {
-        for (const [key, value] of Object.entries(this.cart?.items)) {
-			this.preparingDays = value?.product?.prepare_days;
-
-			if (this.preparingDays) {
-				break; // Exit the loop when a truthy preparingDays value is found.
-			}
-		}
-       
-		const currentDate = new Date();
-		var h = new Date(currentDate);
-		let hour = h.getHours();
-		//console.log("hour : "+hour);
-        if(this.preparingDays=='' || this.preparingDays==null)
-        {
-            this.preparingDays=0;
-        }
-
-		if(hour>=13){
-			this.preparingDays = 1;
-		}
-        else{
-            this.preparingDays = parseInt( this.preparingDays );
-        }
-		
-		currentDate.setDate(currentDate.getDate() + parseInt(this.preparingDays));
-		const formattedDate = currentDate.toISOString().split('T')[0];		
-		
-		this.minDate = formattedDate;		
-		this.selectedDeliveryDate = formattedDate;
+          
+        this.getLocalpickupAddress();
 
         if (this.defaultAddress.address_id) {
             this.form.billingAddressId = this.defaultAddress.address_id;
@@ -249,9 +290,11 @@ export default {
             if (store.state.cart.shippingMethodName) {
                 this.changeShippingMethod(store.state.cart.shippingMethodName);
                 this.updateTotalFlatRate();
+                this.getLocalpickupAddress();
             } else {
                 this.updateShippingMethod(this.firstShippingMethod);
                 this.updateTotalFlatRate();
+                this.getLocalpickupAddress();
             }
 
             if (window.Stripe) {
@@ -263,6 +306,28 @@ export default {
     },
 
     methods: {
+        // stateName(state){
+        //     console.log("state",state);
+        //      // Make an AJAX request to retrieve address details
+        // $.ajax({
+        //     method: "GET",
+        //     url: route("countries.states.index"),
+        //     data: {code: state},
+        //   })
+        //   .then(response => {
+        //     console.log('responseState', response);
+        //     // this.pickupstore = response; // Set the 'pickupstore' data with the response
+        //     // console.log('this.pickupstore', this.pickupstore);
+        //   })
+        //   .catch(error => {
+        //     console.error(error);
+        //   });
+        //     // $.ajax({
+        //     //     method: "GET",
+        //     //     url: route("countries.states.index", { code: country }),
+        //     // }).then(callback);
+        // },
+        
 
         getFixedRate(price) {
             $.ajax({
@@ -436,6 +501,26 @@ export default {
         }
     });
     },
+    getLocalpickupAddress() {
+       // console.log('entered');
+        // Make an AJAX request to retrieve address details
+        $.ajax({
+          method: "GET",
+          url: route("admin.pickupstores.getLocalPickupAddress"),
+          data: {},
+        })
+        .then(response => {
+         // console.log('response', response);
+          this.pickupstore = response; // Set the 'pickupstore' data with the response
+          //console.log('this.pickupstore', this.pickupstore);
+        })
+        .catch(error => {
+          console.error(error);
+        });
+      },
+    
+    
+    
   addNewBillingAddress() {
             this.resetAddressErrors("billing");
 
@@ -580,7 +665,7 @@ export default {
             if (!this.form.terms_and_conditions || this.placingOrder) {
                 return;
             }
-        //    console.log('it s placeorder function',this.form.payment_method)
+          //  console.log("this.selectedLocalpickupAddressId",this.selectedAddressDetails);
             this.placingOrder = true;
 
             $.ajax({
@@ -588,6 +673,8 @@ export default {
                 url: route("checkout.create"),
                 data: {
                     ...this.form,
+                    selectedPickupstoreDetails:
+                    this.selectedAddressDetails,
                     ship_to_a_different_address:
                         +this.form.ship_to_a_different_address,
                         delivery_date:this.selectedDeliveryDate,
@@ -605,6 +692,7 @@ export default {
                             response.orderId,
                             this.form.payment_method
                         );
+                      
                     }
                 })
                 .catch((xhr) => {
