@@ -66,7 +66,7 @@ export default {
         //     this.selectedLocalpickupAddressId = this.pickupstore[0].id;
         //   }
         // Call the function when the component is mounted
-        console.log("test123",this.countries);
+       // console.log("test123",this.countries);
         this.getLocalpickupAddress();
         if (this.form.shipping_method !== 'flat_rate' && this.pickupstore.length > 0) {
             // Check if pickupstore is not empty and shipping method is not 'flat_rate'
@@ -77,6 +77,26 @@ export default {
           }
       },
     computed: {
+        stateCodeToNameMapping() {
+            return {
+              'JHR' : 'Johor',
+              'KDH' : 'Kedah',
+              'KTN' : 'Kelantan',
+              'LBN' : 'Labuan',
+              'MLK' : 'Malacca (Melaka)',
+              'NSN' : 'Negeri Sembilan',
+              'PHG' : 'Pahang',
+              'PNG' : 'Penang (Pulau Pinang)',
+              'PRK' : 'Perak',
+              'PLS' : 'Perlis',
+              'SBH' : 'Sabah',
+              'SWK' : 'Sarawak',
+              'SGR' : 'Selangor',
+              'TRG' : 'Terengganu',
+              'PJY' : 'Putrajaya',
+              'KUL' : 'Kuala Lumpur',
+            };
+          },
         shouldDisableCheckbox() {
             // Check if the conditions for disabling the checkbox are met
             return (
@@ -136,14 +156,20 @@ export default {
             deep: true, // Watch for nested changes within pickupstore
           },
           selectedLocalpickupAddressId(newVal) {
-            console.log('Selected address ID:', newVal);
+            // console.log("test456", this.form.billing.state)
+            // console.log('Selected address ID:', newVal);
             // Find the selected address in the pickupstore array
             const selectedAddress = this.pickupstore.find(address => address.id === newVal);
-            console.log("selectedAddress",selectedAddress);
+            //console.log("selectedAddress",selectedAddress);
             if (selectedAddress) {
+               // this.stateName(this.selectedAddressDetails.state);
+               
               // Store the selected address details
               this.selectedAddressDetails = selectedAddress;
-            console.log("this.selectedAddressDetails",this.selectedAddressDetails);  
+            // console.log("this.selectedAddressDetails",this.selectedAddressDetails);  
+            // console.log("this.selectedAddressDetails.state",this.selectedAddressDetails.country);
+            
+           // this.stateName(this.selectedAddressDetails.country);
             }
           },
         shouldDisableCheckbox(newVal) {
@@ -280,6 +306,28 @@ export default {
     },
 
     methods: {
+        // stateName(state){
+        //     console.log("state",state);
+        //      // Make an AJAX request to retrieve address details
+        // $.ajax({
+        //     method: "GET",
+        //     url: route("countries.states.index"),
+        //     data: {code: state},
+        //   })
+        //   .then(response => {
+        //     console.log('responseState', response);
+        //     // this.pickupstore = response; // Set the 'pickupstore' data with the response
+        //     // console.log('this.pickupstore', this.pickupstore);
+        //   })
+        //   .catch(error => {
+        //     console.error(error);
+        //   });
+        //     // $.ajax({
+        //     //     method: "GET",
+        //     //     url: route("countries.states.index", { code: country }),
+        //     // }).then(callback);
+        // },
+        
 
         getFixedRate(price) {
             $.ajax({
@@ -454,7 +502,7 @@ export default {
     });
     },
     getLocalpickupAddress() {
-        console.log('entered');
+       // console.log('entered');
         // Make an AJAX request to retrieve address details
         $.ajax({
           method: "GET",
@@ -462,9 +510,9 @@ export default {
           data: {},
         })
         .then(response => {
-          console.log('response', response);
+         // console.log('response', response);
           this.pickupstore = response; // Set the 'pickupstore' data with the response
-          console.log('this.pickupstore', this.pickupstore);
+          //console.log('this.pickupstore', this.pickupstore);
         })
         .catch(error => {
           console.error(error);
@@ -617,7 +665,7 @@ export default {
             if (!this.form.terms_and_conditions || this.placingOrder) {
                 return;
             }
-            console.log("this.selectedLocalpickupAddressId",this.selectedAddressDetails);
+          //  console.log("this.selectedLocalpickupAddressId",this.selectedAddressDetails);
             this.placingOrder = true;
 
             $.ajax({
@@ -639,10 +687,10 @@ export default {
                         //console.log("confirmRazerpayPayment");
                         this.confirmRazerpayPayment(response);
                     } else {
-                        // this.confirmOrder(
-                        //     response.orderId,
-                        //     this.form.payment_method
-                        // );
+                        this.confirmOrder(
+                            response.orderId,
+                            this.form.payment_method
+                        );
                       
                     }
                 })

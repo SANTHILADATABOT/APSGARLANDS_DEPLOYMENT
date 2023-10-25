@@ -126,7 +126,7 @@ class OrderService
         } else {
             // Use the regular shipping address details
             $shippingAddress = $request->shipping;
-             dd($shippingAddress);
+           //  dd($shippingAddress);
         }
 
         // Calculate the total by adding the subTotal, discount, and shippingCost
