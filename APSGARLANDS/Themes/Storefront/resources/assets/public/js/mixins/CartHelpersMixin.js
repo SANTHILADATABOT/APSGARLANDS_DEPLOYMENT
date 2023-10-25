@@ -88,7 +88,7 @@ export default {
             this.loadingOrderSummary = true;
             this.getLocalpickupAddress();
             this.changeShippingMethod(shippingMethodName);
-            console.log('getLocalpickupAddress');
+            //console.log('getLocalpickupAddress');
             $.ajax({
                 method: 'POST',
                 url: route('cart.shipping_method.store', { shipping_method: shippingMethodName }),

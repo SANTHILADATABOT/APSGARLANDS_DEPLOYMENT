@@ -25,6 +25,7 @@ yarn-error.log
 
 #to avoid npm mix js and css files
 APSGARLANDS/Modules/Admin/Assets/js/admin.js
+APSGARLANDS/Modules/Admin/Assets/js/admin.js
 APSGARLANDS/Modules/Brand/Assets/admin/js/brand.js      
 APSGARLANDS/Modules/Category/Assets/admin/js/jstree.js  
 APSGARLANDS/Modules/Currency/Assets/admin/js/currency.js
