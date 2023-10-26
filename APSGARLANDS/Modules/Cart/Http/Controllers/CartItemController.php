@@ -66,34 +66,36 @@ class CartItemController extends Controller
     }    
     public function clearCartItem($cartItemId)
         {
-            
-        if((auth()->user()->id)!=''){
+        if(auth()->check() && auth()->user()->id){
             $customer_id=auth()->user()->id;
             $first_name=auth()->user()->first_name;
             $last_name=auth()->user()->last_name;
+
+            $reason_destroy=request()->deleteReason;
+            $cartItemallvalue=request()->cartItem;
+            $slug_val=$cartItemallvalue['product']['slug'];
+            $qty=$cartItemallvalue['qty'];
+            $unitprice=$cartItemallvalue['unitPrice']['amount'];
+            $product_id_val=$cartItemallvalue['product']['id'];
+            $CartsAbandoned=AbandonedListModel::insert([
+                'slug'=>$slug_val,
+                'quantity'=>$qty,
+                'rate'=>$unitprice,
+                'customer_id'=>$customer_id,
+                'product_id'=>$product_id_val,
+                'reason'=>$reason_destroy,
+                'first_name'=>$first_name,
+                'last_name'=>$last_name,
+        ]);
         }
-        else{
-            $customer_id='0'; 
-            $first_name='';
-            $last_name='';
-        }
-        $reason_destroy=request()->deleteReason;
-        $cartItemallvalue=request()->cartItem;
-        $slug_val=$cartItemallvalue['product']['slug'];
-        $qty=$cartItemallvalue['qty'];
-        $unitprice=$cartItemallvalue['unitPrice']['amount'];
-        $product_id_val=$cartItemallvalue['product']['id'];
-        $CartsAbandoned=AbandonedListModel::insert([
-            'slug'=>$slug_val,
-            'quantity'=>$qty,
-            'rate'=>$unitprice,
-            'customer_id'=>$customer_id,
-            'product_id'=>$product_id_val,
-            'reason'=>$reason_destroy,
-            'first_name'=>$first_name,
-            'last_name'=>$last_name,
-    ]);
+        
      Cart::remove($cartItemId);
      return Cart::instance();
     }
+     /*Get and Check */
+     public function checkemty()
+     {
+         return Cart::instance();
+         
+     }
 }
