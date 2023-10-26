@@ -76,30 +76,21 @@ export default {
 
         remove() { 
             var cartItem_copy=$('#cartItem_copy').val();
-        let deleteReason = $('#deleteReason').val();
-var cartItem=JSON.parse(cartItem_copy);
-
+            let deleteReason = $('#deleteReason').val();
+            var cartItem=JSON.parse(cartItem_copy);
             this.loadingOrderSummary = true;
-
             store.removeCartItem(cartItem);
-
+            
             if (store.cartIsEmpty()) {
                 this.crossSellProducts = [];
             }
-            
             $.ajax({
-                    type:'POST',
-                    datatype:"application/JSON",
-                    method: 'DELETE',
-                    url: route('cart.items.destroy', { cartItemId: cartItem.id+'$$##$$'+cartItem.product.slug+'$$##$$'+cartItem.product.id+'$$##$$'+cartItem.qty+'$$##$$'+cartItem.unitPrice.amount+'$$##$$'+deleteReason,
-             
-                    }),
-                    data:{product_id:JSON.stringify(cartItem.product.id),
-                        product_slug:JSON.stringify(cartItem.product.slug),
-                        product_amount:JSON.stringify(cartItem.unitPrice.inCurrentCurrency.formatted),
-                        product_qty:JSON.stringify(cartItem.qty),
-                        cartdata_full:JSON.stringify(cartItem)}
-            }).then((cart) => {
+                type:'POST',
+                datatype:"application/JSON",
+                url: route('cart.items.destroy', { cartItemId: cartItem.id}),
+                data: {cartItem : cartItem,deleteReason : deleteReason},
+            })
+            .then((cart) => {
                 store.updateCart(cart);
             }).catch((xhr) => {
                 this.$notify(xhr.responseJSON.message);
@@ -107,7 +98,7 @@ var cartItem=JSON.parse(cartItem_copy);
                 this.loadingOrderSummary = false;
             });
             $('#deleteItemModal').modal('hide');
-$('#deleteReason').val('');
+            $('#deleteReason').val('');
         
     },
        
@@ -138,7 +129,6 @@ const value_arr=idProductValue+"@@@"+idSlugValue+"@@@"+idQtyValue+"@@@"+idUnitVa
                 method: 'POST',
                 url: route('cart.clear.store'),
                 data:{cartItemListNewArray:newArrayvalue,reason_destroy:deleteReasonOverall},
-
             }).then((cart) => {
                 store.updateCart(cart);
             }).catch((xhr) => {
@@ -146,8 +136,6 @@ const value_arr=idProductValue+"@@@"+idSlugValue+"@@@"+idQtyValue+"@@@"+idUnitVa
             });
             store.clearCart();
             location.reload();
-
-
     },
 
         changeShippingMethod(shippingMethodName) {
