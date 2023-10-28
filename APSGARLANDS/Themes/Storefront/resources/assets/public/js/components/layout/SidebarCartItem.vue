@@ -56,11 +56,13 @@
             },
 
             remove() {
+             
                 store.removeCartItem(this.cartItem);
 
                 $.ajax({
-                    method: 'DELETE',
+                    method: 'POST',
                     url: route('cart.items.destroy', { cartItemId: this.cartItem.id }),
+                    data:{cartItem :  this.cartItem, deleteReason: ''},
                 }).then((cart) => {
                     store.updateCart(cart);
                 });
